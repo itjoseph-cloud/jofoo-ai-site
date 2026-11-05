@@ -1,0 +1,7 @@
+---
+import Heading from './Heading.astro';
+import {ui} from '../../i18n/ui';
+import Steps from './Steps.astro';
+const t=ui[Astro.url.pathname.includes('/ar/')?'ar':'en'];
+---
+<section><Heading>{t.stepByStep}</Heading><Steps><slot/></Steps></section>

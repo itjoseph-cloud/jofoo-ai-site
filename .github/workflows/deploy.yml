@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'
+    - cron: '0 16 * * *'
 permissions:
   contents: read
   pages: write
@@ -22,21 +25,40 @@ jobs:
       run:
         working-directory: hub
     steps:
+      - name: Gate scheduled publishing to 08 Pacific
+        id: publishing
+        working-directory: .
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=America/Los_Angeles date +%H)" != "08" ]; then
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
+        if: steps.publishing.outputs.deploy == 'true'
       - uses: actions/setup-node@v4
+        if: steps.publishing.outputs.deploy == 'true'
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: hub/package-lock.json
       - run: npm ci
+        if: steps.publishing.outputs.deploy == 'true'
       - run: npm run verify
+        if: steps.publishing.outputs.deploy == 'true'
       - run: npm test
+        if: steps.publishing.outputs.deploy == 'true'
       - run: npm run build
+        if: steps.publishing.outputs.deploy == 'true'
       - run: node scripts/check-acceptance.mjs build
+        if: steps.publishing.outputs.deploy == 'true'
       - run: bash scripts/assemble-site.sh
+        if: steps.publishing.outputs.deploy == 'true'
         working-directory: .
       - uses: actions/upload-pages-artifact@v3
+        if: steps.publishing.outputs.deploy == 'true'
         with:
           path: _site
       - uses: actions/deploy-pages@v4
+        if: steps.publishing.outputs.deploy == 'true'
         id: deployment

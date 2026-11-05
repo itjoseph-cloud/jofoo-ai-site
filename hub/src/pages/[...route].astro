@@ -27,7 +27,7 @@ if(guide){const d=guide.data;jsonld.push({'@type':'Article',headline:d.title,des
 <Base isGuide={!!guide} {lang} {title} {description} {suffix} {alternate} {jsonld}>
 {!suffix?<Hub {lang}/>:guide?<GuidePage {guide}/>:<div class="article"><h1>{title}</h1>
 {pillar&&<><p class="lead">{pillars[pillar][lang][1]}</p><Cards items={items.filter(g=>g.data.pillar===pillar)} {lang}/>{!items.some(g=>g.data.pillar===pillar)&&<p>{t.empty}</p>}</>}
-{suffix==='prompts'&&<><p>{t.promptIntro}</p>{items.flatMap(g=>extractPrompts(g.body??'').map(p=><section><Prompt label={p.label}>{p.text}</Prompt><a href={path(lang,slug(g))}>{g.data.title}</a></section>))}{!items.length&&<p>{t.empty}</p>}</>}
+{suffix==='prompts'&&<><p>{t.promptIntro}</p><a href={path(lang,'topics/prompt-packs')}>{pillars['prompt-packs'][lang][0]}</a>{[...items].sort((a,b)=>Number(b.data.pillar==='prompt-packs')-Number(a.data.pillar==='prompt-packs')).flatMap(g=>extractPrompts(g.body??'').map(p=><section><Prompt label={p.label}>{p.text}</Prompt><a href={path(lang,slug(g))}>{g.data.title}</a></section>))}{!items.length&&<p>{t.empty}</p>}</>}
 {suffix==='newsletter'&&<Newsletter {lang}/>}
 {suffix==='newsletter/thanks'&&<p>{t.thanksBody}</p>}
 {suffix==='links'&&<div class="link-stack">{items.slice(0,5).map(g=><a class="button" href={path(lang,slug(g))}>{g.data.title}</a>)}<a class="button" href={path(lang,'newsletter')}>{t.newsletter}</a><a class="button" href="https://www.youtube.com/@jofooai">YouTube</a><a class="button" href="https://www.instagram.com/jofooai">Instagram</a></div>}

@@ -1,12 +1,15 @@
 import { z } from 'astro/zod';
 import { isHttpsUrl } from './content-rules.mjs';
 export const guideSchema = z.object({
+  icon: z.enum(["wrench","clock","compare","bolt","sparkle","shield","chat","document","photo","mail","calendar","search","lock","phone","list","lightbulb","translate","microphone","chart","checklist"]),
+  infographic: z.object({title:z.string().min(1),items:z.array(z.object({label:z.string().min(1).max(40),detail:z.string().min(1).max(90)})).min(3).max(6)}),
+  publishOn: z.iso.datetime({offset:true}).optional(),
   contentId: z.string().regex(/^JAI-\d{8}-\d{3}$/), lang: z.enum(['en','ar']), translationOf: z.string().optional(),
   title: z.string().min(1).max(70), description: z.string().min(120).max(160), promise: z.string().min(1),
-  pillar: z.enum(['fix-it','save-time','tools','in-a-minute','create','safety']), segment: z.enum(['beginners','students','professionals','older-adults','creators']),
+  pillar: z.enum(['fix-it','save-time','tools','in-a-minute','create','safety','prompt-packs']), segment: z.enum(['beginners','students','professionals','older-adults','creators']),
   level: z.enum(['beginner','intermediate','advanced']), tools: z.array(z.string()).min(1), cost: z.string(), timeMinutes: z.number().int().positive(),
   verifiedOn: z.coerce.date(), updatedOn: z.coerce.date().optional(), sources: z.array(z.object({title:z.string(),url:z.url().refine(isHttpsUrl, 'Source URLs must use HTTPS'),accessed:z.coerce.date()})).min(1),
-  riskLevel: z.enum(['LOW','MEDIUM','HIGH']), qaRecord:z.string(), primaryKeyword:z.string(), secondaryKeywords:z.array(z.string()), faq:z.array(z.object({q:z.string(),a:z.string()})),
+  riskLevel: z.enum(['LOW','MEDIUM','HIGH']), qaRecord:z.string(), primaryKeyword:z.string(), secondaryKeywords:z.array(z.string()), faq:z.array(z.object({q:z.string(),a:z.string()})).min(2),
   videoIds:z.array(z.object({youtube:z.string().regex(/^[\w-]+$/).optional(),instagram:z.string().regex(/^[\w-]+$/).optional()}).refine(v => Number(!!v.youtube) + Number(!!v.instagram) === 1, 'Provide exactly one video ID')).optional(), videoUploadDate:z.coerce.date().optional(), draft:z.boolean().default(false)
 }).superRefine((guide, ctx) => {
   if (guide.riskLevel !== 'LOW' && !/^QA-APPROVED-JAI-\d{8}-\d{3}-\d{8}$/.test(guide.qaRecord))

@@ -1,0 +1,15 @@
+---
+// Component execution order can differ from document order during MDX rendering.
+// Use one counter over the rendered section headings, excluding CTA headings.
+// The mid-page CTA goes after the second section ends, i.e. just before the third
+// section (and its wrapping <section>, if any), so no section is split in two.
+const body=await Astro.slots.render('default');
+const cta=await Astro.slots.render('cta');
+let count=0;
+let html=body.replace(/(<section\b[^>]*>\s*)?<h2\b[^>]*data-guide-heading[^>]*>[\s\S]*?<\/h2>/g,match=>{
+  count+=1;
+  return count===3?cta+match:match;
+});
+if(count<3)html+=cta;
+---
+<Fragment set:html={html}/>

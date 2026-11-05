@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {guideSchema} from '../src/lib/guide-schema.mjs';
 import {isHttpsUrl,findCounterpart,videoMetadata} from '../src/lib/content-rules.mjs';
 import {hasProhibitedWording} from './check-wording.mjs';
-const valid={contentId:'JAI-20261104-001',lang:'en',title:'Example',description:'A'.repeat(120),promise:'Help',pillar:'tools',segment:'beginners',level:'beginner',tools:['Example'],cost:'0',timeMinutes:1,verifiedOn:'2026-11-04',sources:[{title:'Docs',url:'https://example.com/',accessed:'2026-11-04'}],riskLevel:'LOW',qaRecord:'QA-JAI-20261104-001-20261104',primaryKeyword:'example',secondaryKeywords:[],faq:[]};
+const valid={icon:'chat',infographic:{title:'Flow',items:Array.from({length:3},()=>({label:'Step',detail:'Detail'}))},contentId:'JAI-20261104-001',lang:'en',title:'Example',description:'A'.repeat(120),promise:'Help',pillar:'tools',segment:'beginners',level:'beginner',tools:['Example'],cost:'0',timeMinutes:1,verifiedOn:'2026-11-04',sources:[{title:'Docs',url:'https://example.com/',accessed:'2026-11-04'}],riskLevel:'LOW',qaRecord:'QA-JAI-20261104-001-20261104',primaryKeyword:'example',secondaryKeywords:[],faq:[{q:"One?",a:"Yes"},{q:"Two?",a:"Yes"}]};
 test('QA records require complete IDs and approval for elevated risk',()=>{
  for(const riskLevel of ['MEDIUM','HIGH']){
   for(const qaRecord of ['QA-APPROVED-','PENDING',valid.qaRecord,'QA-APPROVED-JAI-20261104-001-20261104-extra'])assert.equal(guideSchema.safeParse({...valid,riskLevel,qaRecord}).success,false);

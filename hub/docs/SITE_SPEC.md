@@ -19,8 +19,8 @@ Public URL: `https://jofooai.jofoo.tech/guides/`. Served from repo `jofoo-ai-sit
 
 ## Content collection `guides` (`src/content/guides/{en,ar}/<slug>.mdx`)
 Zod schema in `src/content.config.ts`. The build fails if any of these are missing or wrong:
-`contentId` (regex `^JAI-\d{8}-\d{3}$`), `lang` ('en'|'ar'), `translationOf` (slug of the other language, optional), `title` (≤ 70 chars), `description` (120 to 160 chars), `promise`, `pillar` (enum: fix-it, save-time, tools, in-a-minute, create, safety), `segment` (enum: beginners, students, professionals, older-adults, creators), `level` (beginner|intermediate|advanced), `tools` (string[] ≥ 1), `cost` (string, for example "$0 on the free plan"), `timeMinutes` (int), `verifiedOn` (date), `updatedOn` (date, optional), `sources` (array ≥ 1 of {title, url, accessed: date}), `riskLevel` (LOW|MEDIUM|HIGH), `qaRecord` (string), `primaryKeyword`, `secondaryKeywords` (string[]), `faq` (array of {q, a}), `videoIds` ({youtube?, instagram?}[], optional), `draft` (boolean, default false).
-- Pages are only built for `draft: false`.
+`contentId` (regex `^JAI-\d{8}-\d{3}$`), `lang` ('en'|'ar'), `translationOf` (slug of the other language, optional), `title` (≤ 70 chars), `description` (120 to 160 chars), `promise`, `pillar` (enum: fix-it, save-time, tools, in-a-minute, create, safety, prompt-packs), `segment` (enum: beginners, students, professionals, older-adults, creators), `level` (beginner|intermediate|advanced), `tools` (string[] ≥ 1), `cost` (string, for example "$0 on the free plan"), `timeMinutes` (int), `verifiedOn` (date), `updatedOn` (date, optional), `sources` (array ≥ 1 of {title, url, accessed: date}), `riskLevel` (LOW|MEDIUM|HIGH), `qaRecord` (string), `primaryKeyword`, `secondaryKeywords` (string[]), `faq` (array of {q, a}), `videoIds` ({youtube?, instagram?}[], optional), `draft` (boolean, default false).
+- Pages are built only when `isPublished(guide, now)` permits them: draft is false and publishOn is absent or at/before build time. `INCLUDE_DRAFTS=1` includes both drafts and future guides in preview. All routes, related guides, prompts, RSS, sitemap, search and llms.txt share this gate.
 - **Build guard:** any guide with `riskLevel` other than LOW must have `qaRecord` matching `^QA-APPROVED-JAI-\d{8}-\d{3}-\d{8}$`.
 
 Put **one** sample guide in `src/content/guides/{en,ar}/sample-guide.mdx` with `draft: true`, so no page is generated for it. It exists only to exercise the schema and components in a test build: `npm run build:preview` sets `INCLUDE_DRAFTS=1`.
@@ -37,11 +37,11 @@ Put **one** sample guide in `src/content/guides/{en,ar}/sample-guide.mdx` with `
 Guide URLs: `/guides/<slug>/` and `/guides/ar/<slug>/`.
 In order:
 1. Breadcrumbs
-2. H1 (title)
+2. Coded Cover banner, then H1 (title)
 3. Promise line
 4. Meta strip: "Verified on {date}", cost, time, level, tools
 5. TLDR (from the MDX body)
-6. MDX body
+6. Infographic figure, then the structured MDX body
 7. FAQ (rendered from frontmatter, as `<details>`)
 8. Sources list with accessed dates
 9. Disclosure line: "Jofoo AI is independent and not affiliated with the tool makers named here. Some steps were drafted with AI help and checked by a person." (Arabic equivalent in ui.ts.)
@@ -63,7 +63,7 @@ Routes below are relative to `/guides/` (English) or `/guides/ar/` (Arabic).
   - Newsletter block and follow links (YouTube https://www.youtube.com/@jofooai, Instagram https://www.instagram.com/jofooai)
   - Empty state when there are no guides yet: "First guides are on the way. Get them by email."
 - **`/topics/<pillar>/`:** cluster hub with an intro paragraph from `src/data/pillars.ts` (en and ar) and the guides in that pillar.
-- **`/prompts/`:** every `Prompt` from published guides, collected at build time and linked to its guide.
+- **`/prompts/`:** every `Prompt` from published guides, collected at build time and linked to its guide, with prompt-packs guides first and a link to that topic.
 - **`/newsletter/`** and **`/newsletter/thanks/`.**
 - **`/links/`:** link-in-bio page with large buttons: latest 5 guides, newsletter, YouTube, Instagram.
 - **`/about/`** and **`/editorial-policy/`:** how guides are researched, verified, dated and corrected, the AI-assistance disclosure, and the risk levels. Draft copy is fine; keep it factual.
@@ -105,3 +105,17 @@ Pagefind runs after `astro build` (`pagefind --site dist`). Index only guide bod
 - The 404 and both newsletter thank-you pages are noindex and excluded from the sitemap. The 404 omits canonical and hreflang.
 - Breadcrumbs have localized labels and a current-page item; Arabic uses the Arabic body font. Empty hubs omit the count line.
 - Wording checks normalize markup whitespace. Verify includes preview acceptance; deploy checks production acceptance after building.
+
+## Enforced guide structure and graphics
+
+The seventh pillar is `prompt-packs`, with localized labels and introductions in `src/data/pillars.ts`. It appears in filters, topic pages, llms.txt and the prompt library.
+
+Every guide body must use this order: `TLDR`, `Problem`, `Why`, `Fix`, `StepByStep` containing at least three `Step` elements, at least one `Prompt`, at least one `Tip`/`Warning`/`Safety`, then `Checklist`. Frontmatter `faq` requires at least two entries. The four section components render localized H2s through `Heading.astro`; Markdown and page section H2s use that same counter. The compact CTA appears immediately after the second H2. `StepByStep` wraps the existing `Steps` ordered list.
+
+Required frontmatter: `icon` is one of the 20 names in `src/data/glyphs.ts`; `infographic` contains a nonempty `title` and 3 to 6 `items`, each with `label` (1 to 40 characters) and `detail` (1 to 90 characters). Optional `publishOn` is an ISO datetime string with a timezone offset, for example `2026-11-06T08:00:00-08:00`.
+
+`Cover.astro` renders the pillar label and an original decorative 24x24 stroke SVG on a brand gradient, above each guide title and as a card thumbnail. The H1 remains HTML. `Infographic.astro` follows TLDR automatically using frontmatter, with a figcaption and an ordered list of numbered HTML labels and details. It flows horizontally on wide screens and vertically on narrow screens, follows RTL direction and uses only brand tokens. Graphics require no external requests or animation.
+
+`npm run verify` begins with `scripts/check-structure.mjs`. Missing or out-of-order components and insufficient FAQ entries fail with the file and part. English average sentence length above 20 words produces a warning only. Node unit cases cover structure, schema constraints and publication dates including a guide scheduled tomorrow. Preview acceptance checks the cover, infographic ordered list, localized H2s and CTA position.
+
+Scheduled deploys run at UTC 15:00 and 16:00; a gate runs `TZ=America/Los_Angeles date +%H` and sets a step output. All subsequent steps run only if the hour is 08 for schedule events. Other scheduled runs finish successfully without deployment. Push and manual events always pass the gate.

@@ -1,4 +1,6 @@
 ---
+import Infographic from './Infographic.astro';
+const infographic=(Astro.locals as {infographic?:{title:string;items:{label:string;detail:string}[]}}).infographic;
 import Callout from './Callout.astro';
 ---
-<Callout kind="summary"><slot/></Callout>
+<Callout kind="summary"><slot/></Callout>{infographic&&<Infographic {...infographic}/>}
