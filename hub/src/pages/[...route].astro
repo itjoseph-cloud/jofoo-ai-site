@@ -1,7 +1,7 @@
 ---
 import {asset} from '../lib/site.mjs';
 import {getCollection} from 'astro:content';
-import {assertGuideSlugs} from '../lib/guide-routes.mjs';
+import {assertGuideSlugs,STATIC_PAGE_SUFFIXES} from '../lib/guide-routes.mjs';
 import {findCounterpart,videoMetadata} from '../lib/content-rules.mjs';
 import Base from '../layouts/Base.astro';
 import Hub from '../components/Hub.astro';
@@ -12,7 +12,7 @@ import Prompt from '../components/guide/Prompt.astro';
 import {ui,path,absolute,type Lang} from '../i18n/ui';
 import {pillars} from '../data/pillars';
 import {guides,slug,extractPrompts,type Guide} from '../lib/guides';
-export async function getStaticPaths(){await assertGuideSlugs((await getCollection('guides')).map(slug));const items=await guides();return (['en','ar'] as const).flatMap(lang=>['','prompts','newsletter','newsletter/thanks','links','about','editorial-policy',...Object.keys(pillars).map(p=>`topics/${p}`),...items.filter(g=>g.data.lang===lang).map(g=>slug(g))].map(suffix=>({params:{route:`${lang==='ar'?'ar/':''}${suffix}`||undefined},props:{lang,suffix,guide:items.find(g=>g.data.lang===lang&&suffix===slug(g))}})));}
+export async function getStaticPaths(){await assertGuideSlugs((await getCollection('guides')).map(g=>({lang:g.data.lang,slug:slug(g)})));const items=await guides();return (['en','ar'] as const).flatMap(lang=>[...STATIC_PAGE_SUFFIXES,...Object.keys(pillars).map(p=>`topics/${p}`),...items.filter(g=>g.data.lang===lang).map(g=>slug(g))].map(suffix=>({params:{route:`${lang==='ar'?'ar/':''}${suffix}`||undefined},props:{lang,suffix,guide:items.find(g=>g.data.lang===lang&&suffix===slug(g))}})));}
 interface Props{lang:Lang;suffix:string;guide?:Guide}
 const {lang,suffix,guide}=Astro.props,t=ui[lang],items=await guides(lang),all=await guides();
 const pillar=suffix.startsWith('topics/')?suffix.split('/')[1] as keyof typeof pillars:undefined;

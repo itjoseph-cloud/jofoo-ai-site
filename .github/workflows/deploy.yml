@@ -30,6 +30,7 @@ jobs:
           cache-dependency-path: hub/package-lock.json
       - run: npm ci
       - run: npm run verify
+      - run: npm test
       - run: npm run build
       - run: node scripts/check-acceptance.mjs build
       - run: bash scripts/assemble-site.sh

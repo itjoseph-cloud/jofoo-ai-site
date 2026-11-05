@@ -1,6 +1,6 @@
 # Jofoo AI Guides Hub: site build spec (v1)
 
-Public URL: `https://jofooai.jofoo.tech/guides/`. GitHub Pages project site, no CNAME file. Astro `site: 'https://jofooai.jofoo.tech'`, `base: '/guides'`, `trailingSlash: 'always'`, `output: 'static'`.
+Public URL: `https://jofooai.jofoo.tech/guides/`. Served from repo `jofoo-ai-site` with root CNAME `jofooai.jofoo.tech`. Astro `site: 'https://jofooai.jofoo.tech'`, `base: '/guides'`, `trailingSlash: 'always'`, `output: 'static'`.
 
 ## Rules
 - All copy is original. No text, layout or images from any other site.
