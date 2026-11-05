@@ -1,33 +1,50 @@
 ---
 import { ui, path, type Lang } from '../i18n/ui';
 interface Props { lang?:Lang; compact?:boolean }
-const lang=Astro.props.lang ?? (Astro.url.pathname.includes('/ar/')?'ar':'en');
+const lang:Lang=Astro.props.lang ?? (Astro.currentLocale==='ar'?'ar':'en');
 const t=ui[lang]; const action=import.meta.env.PUBLIC_MAILERLITE_FORM_ACTION;
 if(action && (!action.startsWith('https://') || !['assets.mailerlite.com','static.mailerlite.com'].includes(new URL(action).hostname))) throw new Error('Use a MailerLite HTTPS form action');
 const id=`email-${Astro.props.compact?'pack':'news'}`;
 ---
-<aside class="panel" data-pagefind-ignore><h2>{Astro.props.compact?t.promptCta:t.newsletter}</h2>{action?<form action={action} method="post" data-newsletter data-thanks={path(lang,'newsletter/thanks')} data-error={t.signupError} data-sending={t.sending}><label for={id}>{t.email}</label><div class="search-row"><input id={id} type="email" name="fields[email]" autocomplete="email" required/><button type="submit">{t.signup}</button></div><input type="hidden" name="ml-submit" value="1"/><input type="hidden" name="anticsrf" value="true"/><p class="form-status" role="status" aria-live="polite"></p></form>:<button disabled>{t.soon}</button>}</aside>
+<aside class="panel" data-pagefind-ignore><h2>{Astro.props.compact?t.promptCta:t.newsletter}</h2>{action?<form action={action} method="post" data-newsletter data-thanks={path(lang,'newsletter/thanks')} data-error={t.signupError} data-failed={t.signupFailed} data-sending={t.sending}><label for={id}>{t.email}</label><div class="search-row"><input id={id} type="email" name="fields[email]" autocomplete="email" aria-describedby={`${id}-status`} required/><button type="submit">{t.signup}</button></div><input type="hidden" name="ml-submit" value="1"/><input type="hidden" name="anticsrf" value="true"/><p id={`${id}-status`} class="form-status" aria-live="polite"></p></form>:<button disabled>{t.soon}</button>}</aside>
+<style>.form-status:empty{display:none}</style>
 <script>
 // Submits in the background so visitors land on our own thanks page, not MailerLite's raw JSON reply.
-// Without JavaScript the form still posts normally.
-for (const form of document.querySelectorAll<HTMLFormElement>('form[data-newsletter]')) {
+// Without JavaScript the browser posts the form directly and shows MailerLite's reply.
+const forms = document.querySelectorAll<HTMLFormElement>('form[data-newsletter]');
+const reset = (form: HTMLFormElement) => {
+  form.removeAttribute('data-busy');
+  form.querySelector('button[type=submit]')!.removeAttribute('aria-disabled');
+};
+for (const form of forms) {
+  const status = form.querySelector<HTMLElement>('.form-status')!;
+  const input = form.querySelector<HTMLInputElement>('input[type=email]')!;
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const status = form.querySelector<HTMLElement>('.form-status')!;
-    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
-    button.disabled = true;
+    if (form.hasAttribute('data-busy')) return;
+    form.setAttribute('data-busy', '');
+    form.querySelector('button[type=submit]')!.setAttribute('aria-disabled', 'true');
+    input.removeAttribute('aria-invalid');
     status.textContent = form.dataset.sending!;
+    let message = form.dataset.failed!;
     try {
       const body = new URLSearchParams();
       for (const [key, value] of new FormData(form)) body.append(key, String(value));
-      const response = await fetch(form.action, { method: 'POST', body });
-      const result = await response.json();
-      if (result && result.success === true) { location.assign(form.dataset.thanks!); return; }
-      status.textContent = form.dataset.error!;
+      const response = await fetch(form.action, { method: 'POST', body, signal: AbortSignal.timeout(15000) });
+      const result = response.ok ? await response.json() : null;
+      if (result?.success === true) { reset(form); status.textContent = ''; location.assign(form.dataset.thanks!); return; }
+      if (result?.errors?.fields?.email) { message = form.dataset.error!; input.setAttribute('aria-invalid', 'true'); }
     } catch {
-      status.textContent = form.dataset.error!;
+      // Network error, timeout or a non-JSON reply: keep the generic message.
     }
-    button.disabled = false;
+    status.textContent = message;
+    reset(form);
+    input.focus();
   });
 }
+// A page restored from the back/forward cache must not show a stuck form.
+addEventListener('pageshow', (event) => {
+  if (!event.persisted) return;
+  for (const form of forms) { reset(form); form.querySelector('.form-status')!.textContent = ''; }
+});
 </script>
