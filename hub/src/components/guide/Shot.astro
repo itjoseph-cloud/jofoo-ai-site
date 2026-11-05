@@ -1,0 +1,9 @@
+---
+import {isHttpsUrl} from '../../lib/content-rules.mjs';
+interface Props {src:string;alt:string;caption:string;width:number;height:number;source?:string}
+const {src,alt,caption,width,height,source}=Astro.props;
+if(!alt?.trim()||!caption?.trim()||!(width>0&&height>0)) throw new Error('Shot requires alt, caption, width and height');
+if(source !== undefined && !isHttpsUrl(source)) throw new Error('Shot source must use HTTPS');
+if(!src.startsWith('/jofooai/')) throw new Error('Shot images must be local');
+---
+<figure><img {src} {alt} {width} {height} loading="lazy"/><figcaption>{caption}{source&&<> — <a href={source}>{source}</a></>}</figcaption></figure>

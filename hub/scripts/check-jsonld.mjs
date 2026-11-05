@@ -1,0 +1,2 @@
+import {htmlFiles,read,fail} from './check-utils.mjs';
+const errors=[];let count=0;for(const file of await htmlFiles())for(const match of (await read(file)).matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)){count++;try{const data=JSON.parse(match[1]);if(!data['@context']||!data['@type'])throw new Error('Missing context or type');}catch(e){errors.push(`${file}: ${e.message}`);}}if(!count)errors.push('No JSON-LD found');fail(errors);

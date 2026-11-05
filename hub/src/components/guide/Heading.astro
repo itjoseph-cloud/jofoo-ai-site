@@ -1,0 +1,7 @@
+---
+import Newsletter from '../Newsletter.astro';
+const locals=Astro.locals as {guideHeadings?:number};
+locals.guideHeadings=(locals.guideHeadings??0)+1;
+const show=locals.guideHeadings===2;
+---
+<h2 {...Astro.props}><slot/></h2>{show&&<Newsletter compact/>}

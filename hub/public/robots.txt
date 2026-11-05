@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jofoo.tech/jofooai/sitemap-index.xml

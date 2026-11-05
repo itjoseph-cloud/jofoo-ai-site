@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import { ui, path, absolute, type Lang } from '../i18n/ui';
+interface Props { lang:Lang; title:string; description:string; suffix?:string; alternate?:string|null; jsonld?:Record<string,unknown>[] }
+const {lang,title,description,suffix='',alternate=suffix,jsonld=[]}=Astro.props;
+const is404=suffix==='404', noindex=is404||suffix==='newsletter/thanks';
+const t=ui[lang], other=lang==='en'?'ar':'en';
+const canonical=absolute(suffix==='404'?'/jofooai/404.html':path(lang,suffix));
+---
+<!doctype html><html lang={lang} dir={lang==='ar'?'rtl':'ltr'}><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<title>{title} | Jofoo AI</title><meta name="description" content={description}/>
+{noindex&&<meta name="robots" content="noindex"/>}
+{!is404&&<link rel="canonical" href={canonical}/>}
+{!is404 && alternate!==null && <>
+<link rel="alternate" hreflang={lang} href={canonical}/>
+<link rel="alternate" hreflang={other} href={absolute(path(other,alternate))}/>
+<link rel="alternate" hreflang="x-default" href={lang==='en'?canonical:absolute(path('en',alternate))}/>
+</>}
+<meta property="og:type" content={suffix.startsWith('guides/')?'article':'website'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={absolute('/jofooai/og-default.png')}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:locale" content={lang==='ar'?'ar_AR':'en_US'}/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={absolute('/jofooai/og-default.png')}/>
+<link rel="icon" href="/jofooai/brand/app-icon.png"/><link rel="alternate" type="application/rss+xml" title="Jofoo AI RSS" href={`${path(lang)}rss.xml`}/>
+{jsonld.map(item=><script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org',...item}).replace(/</g,'\\u003c')}/>)}
+</head><body data-pagefind-ignore={!suffix.startsWith('guides/')?'all':undefined}><a class="skip" href="#main">{t.skip}</a><header class="shell header"><a class="brand" href={path(lang)}><img src="/jofooai/brand/logo-on-dark.png" width="160" height="64" alt="Jofoo AI"/></a><nav aria-label={t.home}><a href={path(lang)}>{t.home}</a><a href={path(lang,'prompts')}>{t.prompts}</a><a href={path(lang,'about')}>{t.about}</a>{alternate!==null&&<a lang={other} hreflang={other} href={path(other,alternate)}>{other==='ar'?'العربية':'English'}</a>}</nav></header>
+<main id="main" class="shell" data-pagefind-ignore={!suffix.startsWith('guides/')||undefined}><slot/></main><footer class="shell footer" data-pagefind-ignore><p>Jofoo AI</p><nav aria-label="Footer"><a href={path(lang,'editorial-policy')}>{t.policy}</a><a href={path(lang,'newsletter')}>{t.newsletter}</a><a href={path(lang,'links')}>{t.links}</a><a href="https://jofooai.jofoo.tech/privacy.html">{t.privacy}</a><a href="https://jofooai.jofoo.tech/terms.html">{t.terms}</a><a href={`${path(lang)}rss.xml`}>RSS</a></nav></footer></body></html>

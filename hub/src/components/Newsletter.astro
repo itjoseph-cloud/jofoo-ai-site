@@ -1,0 +1,8 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+interface Props { lang?:Lang; compact?:boolean }
+const lang=Astro.props.lang ?? (Astro.url.pathname.includes('/ar/')?'ar':'en');
+const t=ui[lang]; const action=import.meta.env.PUBLIC_MAILERLITE_FORM_ACTION;
+if(action && (!action.startsWith('https://') || !['assets.mailerlite.com','static.mailerlite.com'].includes(new URL(action).hostname))) throw new Error('Use a MailerLite HTTPS form action');
+---
+<aside class="panel" data-pagefind-ignore><h2>{Astro.props.compact?t.promptCta:t.newsletter}</h2>{action?<form action={action} method="post"><label for={`email-${Astro.props.compact?'pack':'news'}`}>{t.email}</label><div class="search-row"><input id={`email-${Astro.props.compact?'pack':'news'}`} type="email" name="fields[email]" autocomplete="email" required/><button type="submit">{t.signup}</button></div><input type="hidden" name="ml-submit" value="1"/><input type="hidden" name="anticsrf" value="true"/></form>:<button disabled>{t.soon}</button>}</aside>

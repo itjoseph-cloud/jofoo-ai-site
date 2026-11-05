@@ -1,0 +1,2 @@
+import {htmlFiles,read,target,exists,fail} from './check-utils.mjs';
+const errors=[],external=new Set();for(const file of await htmlFiles())for(const m of (await read(file)).matchAll(/\b(?:href|src)="([^"]+)"/g)){if(/^(#|mailto:|data:)/.test(m[1]))continue;try{const dest=target(m[1]);if(!dest)external.add(m[1]);else if(!await exists(dest))errors.push(`${file}: missing ${m[1]}`);}catch(e){errors.push(`${file}: ${e.message}`);}}console.log('External links (not requested):\n'+[...external].sort().join('\n'));fail(errors);

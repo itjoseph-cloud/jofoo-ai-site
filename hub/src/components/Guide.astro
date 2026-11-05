@@ -1,0 +1,27 @@
+---
+import {render} from 'astro:content';
+import {type Guide, guides, date} from '../lib/guides';
+import {ui,path} from '../i18n/ui';
+import Prompt from './guide/Prompt.astro';
+import Steps from './guide/Steps.astro';
+import Step from './guide/Step.astro';
+import Tip from './guide/Tip.astro';
+import Warning from './guide/Warning.astro';
+import Safety from './guide/Safety.astro';
+import Shot from './guide/Shot.astro';
+import Checklist from './guide/Checklist.astro';
+import TLDR from './guide/TLDR.astro';
+import Heading from './guide/Heading.astro';
+import Newsletter from './Newsletter.astro';
+import Cards from './Cards.astro';
+interface Props{guide:Guide}
+const {guide}=Astro.props,d=guide.data,t=ui[d.lang];const {Content}=await render(guide);
+(Astro.locals as {guideHeadings?:number}).guideHeadings=0;
+const related=(await guides(d.lang)).filter(g=>g.id!==guide.id).sort((a,b)=>Number(b.data.pillar===d.pillar)-Number(a.data.pillar===d.pillar)).slice(0,3);
+---
+<article class="article" data-pagefind-body data-pagefind-filter={`language:${d.lang}, pillar:${d.pillar}`}><nav class="breadcrumbs" aria-label={t.breadcrumb}><a href={path(d.lang)}>{t.home}</a><span aria-hidden="true">/</span><span aria-current="page">{d.title}</span></nav>{d.draft&&<p class="eyebrow">{t.draftNote}</p>}<h1 data-pagefind-meta="title">{d.title}</h1><p class="lead">{d.promise}</p><div class="meta"><span>{t.verified} <time datetime={d.verifiedOn.toISOString()}>{date(d.verifiedOn,d.lang)}</time></span><span>{d.cost}</span><span>{d.timeMinutes} {t.minutes}</span><span>{t[d.level]}</span><span>{d.tools.join(' · ')}</span></div>
+<Content components={{Prompt,Steps,Step,Tip,Warning,Safety,Shot,Checklist,TLDR,Newsletter,h2:Heading}}/>
+{d.faq.length>0&&<section><h2>{t.faq}</h2>{d.faq.map(f=><details><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>}
+<section><h2>{t.sources}</h2><ul>{d.sources.map(s=><li><a href={s.url}>{s.title}</a> — {t.accessed} {date(s.accessed,d.lang)}</li>)}</ul></section><p>{t.disclosure}</p>
+{d.videoIds?.map(v=><aside data-pagefind-ignore><a href={v.youtube?`https://www.youtube.com/watch?v=${v.youtube}`:`https://www.instagram.com/p/${v.instagram}/`}><img src="/jofooai/og-default.png" width="1200" height="630" loading="lazy" alt={t.watch} style="max-inline-size:100%;block-size:auto"/>{t.watch}</a></aside>)}
+<Newsletter lang={d.lang}/>{related.length>0&&<section data-pagefind-ignore><h2>{t.related}</h2><Cards items={related} lang={d.lang}/></section>}<p data-pagefind-ignore><a href={path(d.lang)}>{t.back}</a></p></article>
