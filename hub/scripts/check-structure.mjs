@@ -9,8 +9,8 @@ export function checkStructure(source) {
   try { data=match?parse(match[1]):{}; } catch { errors.push('invalid frontmatter'); }
   if(!Array.isArray(data?.faq)||data.faq.length<2) errors.push('missing faq: at least 2 entries');
   // Examples and comments cannot satisfy the required visible structure.
-  const body=source.slice(match?.[0].length??0).replace(/^(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\1[^\n]*$/gm,'').replace(/\{\/\*[\s\S]*?\*\/\}|<!--[\s\S]*?-->|`[^`\n]*`/g,'');
-  const tags=[...body.matchAll(/<(\/?)(TLDR|Problem|Why|Fix|StepByStep|Step|Prompt|Tip|Warning|Safety|Checklist)\b[^>]*>/g)];
+  const body=source.slice(match?.[0].length??0).replace(/^[ \t]*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^[ \t]*\1[^\n]*$/gm,'').replace(/\{\/\*[\s\S]*?\*\/\}|<!--[\s\S]*?-->|(`+)[\s\S]*?\1/g,'');
+  const tags=[...body.matchAll(/<(\/?)(TLDR|Problem|Why|Fix|StepByStep|Step|Prompt|Tip|Warning|Safety|Checklist)\b(?:"[^"]*"|'[^']*'|[^'">])*>/g)];
   const stack=[], elements=[];
   for(const tag of tags){
     if(!tag[1]) { if(!tag[0].endsWith('/>')) stack.push({name:tag[2],start:tag.index,end:tag.index+tag[0].length}); }
@@ -18,12 +18,21 @@ export function checkStructure(source) {
   }
   for(const item of stack) errors.push(`unclosed ${item.name}`);
   let cursor=0;
-  for(const group of [['TLDR'],['Problem'],['Why'],['Fix'],['StepByStep'],['Prompt'],['Tip','Warning','Safety'],['Checklist']]){
+  const sections={};
+  for(const group of [['TLDR'],['Problem'],['Why'],['Fix'],['StepByStep'],['Checklist']]){
     const candidates=elements.filter(e=>group.includes(e.name)&&e.start>=cursor).sort((a,b)=>a.start-b.start);
     const item=candidates[0];
     if(!item){errors.push(`missing or out of order ${group.join('/')}`);continue;}
     if(item.name==='StepByStep'&&elements.filter(e=>e.name==='Step'&&e.start>=item.end&&e.after<=item.close).length<3) errors.push('missing StepByStep: at least 3 Step children');
+    sections[item.name]=item;
     cursor=item.after;
+  }
+  for(const group of [['Prompt'],['Tip','Warning','Safety']]){
+    if(!elements.some(e=>group.includes(e.name)&&e.start>=sections.Fix?.end&&e.after<=sections.Checklist?.start))errors.push(`missing or out of order ${group.join('/')}`);
+  }
+  if(data?.publishOn && Number.isFinite(Date.parse(data.publishOn))){
+    const time=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Los_Angeles',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date(data.publishOn));
+    if(time!=='08:00:00'||new Date(data.publishOn).getUTCMilliseconds()!==0)warnings.push('publishOn is not 08:00 in America/Los_Angeles');
   }
   if(data?.lang==='en'){
     const prose=body.replace(/<[^>]*>/g,' ').replace(/\[[^\]]*\]\([^)]*\)/g,' ').replace(/[#*_{}]/g,' ');

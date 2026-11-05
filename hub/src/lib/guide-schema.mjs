@@ -3,7 +3,7 @@ import { isHttpsUrl } from './content-rules.mjs';
 export const guideSchema = z.object({
   icon: z.enum(["wrench","clock","compare","bolt","sparkle","shield","chat","document","photo","mail","calendar","search","lock","phone","list","lightbulb","translate","microphone","chart","checklist"]),
   infographic: z.object({title:z.string().min(1),items:z.array(z.object({label:z.string().min(1).max(40),detail:z.string().min(1).max(90)})).min(3).max(6)}),
-  publishOn: z.iso.datetime({offset:true}).optional(),
+  publishOn: z.union([z.iso.datetime({offset:true}),z.iso.datetime({offset:true,precision:-1})]).optional(),
   contentId: z.string().regex(/^JAI-\d{8}-\d{3}$/), lang: z.enum(['en','ar']), translationOf: z.string().optional(),
   title: z.string().min(1).max(70), description: z.string().min(120).max(160), promise: z.string().min(1),
   pillar: z.enum(['fix-it','save-time','tools','in-a-minute','create','safety','prompt-packs']), segment: z.enum(['beginners','students','professionals','older-adults','creators']),

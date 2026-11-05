@@ -1,4 +1,5 @@
 ---
+import {pillars} from '../data/pillars';
 import Cover from './guide/Cover.astro';
 import type { Guide } from '../lib/guides';
 import { slug } from '../lib/guides';
@@ -6,4 +7,4 @@ import {ui,path,type Lang} from '../i18n/ui';
 interface Props { items:Guide[]; lang:Lang }
 const {items,lang}=Astro.props;
 ---
-<div class="grid">{items.map(g=><article class="card" data-guide-card data-pillar={g.data.pillar}><Cover icon={g.data.icon} pillar={g.data.pillar} {lang} small/><h2><a href={path(lang,slug(g))}>{g.data.title}</a></h2><p>{g.data.description}</p><span>{g.data.timeMinutes} {ui[lang].minutes}</span></article>)}</div>
+<div class="grid">{items.map(g=><article class="card" data-guide-card data-pillar={g.data.pillar}><Cover icon={g.data.icon} pillar={g.data.pillar} {lang} small/><h2><a href={path(lang,slug(g))}>{g.data.title}</a></h2><p>{g.data.description}</p><span>{pillars[g.data.pillar][lang][0]}</span><span>{g.data.timeMinutes} {ui[lang].minutes}</span></article>)}</div>

@@ -3,3 +3,4 @@ import './review.test.mjs';
 import './guide-routes.test.mjs';
 import './structure.test.mjs';
 import './publication.test.mjs';
+import './published-build.test.mjs';

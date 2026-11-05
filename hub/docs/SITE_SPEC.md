@@ -46,7 +46,7 @@ In order:
 8. Sources list with accessed dates
 9. Disclosure line: "Jofoo AI is independent and not affiliated with the tool makers named here. Some steps were drafted with AI help and checked by a person." (Arabic equivalent in ui.ts.)
 10. Video embed slot (facade: thumbnail plus link, no iframe until click) when `videoIds` is set
-11. Mid-page CTA after the second H2: prompt-pack sign-up
+11. Mid-page CTA after the second section ends: prompt-pack sign-up
 12. End CTA: newsletter
 13. Related guides: 3, same pillar first
 14. Back to hub
@@ -75,7 +75,7 @@ Routes below are relative to `/guides/` (English) or `/guides/ar/` (Arabic).
 - OG image: `public/og-default.png` at 1200×630, built from the logo on a solid ocean background (a committed static file is fine).
 - JSON-LD:
   - Organization and WebSite (with SearchAction pointing at `/guides/?q={search_term_string}`) on the hub.
-  - Article (headline, datePublished = verifiedOn, dateModified = updatedOn or verifiedOn, inLanguage, author = Organization "Jofoo AI"), BreadcrumbList, and FAQPage (when faq is non-empty) on guides.
+  - Article (headline, datePublished = publishOn ?? verifiedOn, dateModified = updatedOn ?? publishOn ?? verifiedOn, inLanguage, author = Organization "Jofoo AI"), BreadcrumbList, and FAQPage (when faq is non-empty) on guides.
   - VideoObject when videoIds is present.
 - `@astrojs/sitemap` with i18n alternates. `robots.txt` is served at the domain root by the deploy job. RSS at `/guides/rss.xml` and `/guides/ar/rss.xml`. `llms.txt` lists the hub, topics and guides with one-line descriptions.
 
@@ -95,8 +95,8 @@ Pagefind runs after `astro build` (`pagefind --site dist`). Index only guide bod
 
 ## Acceptance
 `npm run verify` exits 0.
-- After `build:preview`: `dist/sample-guide/index.html` and `dist/ar/sample-guide/index.html` exist, and they contain hreflang, canonical, Article JSON-LD and `dir="rtl"` (Arabic).
-- After a plain `npm run build`: the sample guide is not present, the hub shows the empty state, and `dist/pagefind/` exists.
+- After `build:preview`: dynamically discovered draft guides exercise the layout, metadata and localized labels; this check skips when no drafts exist.
+- After a plain `npm run build`: unpublished guides are absent and `dist/pagefind/` exists. Each language hub shows the empty state with no count when it has zero published guides; otherwise it shows the count and links to every published guide.
 
 ## Review corrections
 - Published guides require `^QA-(APPROVED-)?JAI-\d{8}-\d{3}-\d{8}$`; LOW-risk drafts may use PENDING. Elevated-risk approval remains mandatory for drafts.
@@ -110,9 +110,9 @@ Pagefind runs after `astro build` (`pagefind --site dist`). Index only guide bod
 
 The seventh pillar is `prompt-packs`, with localized labels and introductions in `src/data/pillars.ts`. It appears in filters, topic pages, llms.txt and the prompt library.
 
-Every guide body must use this order: `TLDR`, `Problem`, `Why`, `Fix`, `StepByStep` containing at least three `Step` elements, at least one `Prompt`, at least one `Tip`/`Warning`/`Safety`, then `Checklist`. Frontmatter `faq` requires at least two entries. The four section components render localized H2s through `Heading.astro`; Markdown and page section H2s use that same counter. The compact CTA appears immediately after the second H2. `StepByStep` wraps the existing `Steps` ordered list.
+Every guide body must use this order: `TLDR`, `Problem`, `Why`, `Fix`, `StepByStep` containing at least three `Step` elements, then `Checklist`. At least one `Prompt` and one `Tip`/`Warning`/`Safety` must appear after Fix starts and before Checklist, including nested inside Fix or Step. Frontmatter `faq` requires at least two entries. The four section components render localized H2s through `Heading.astro`; Markdown and page section H2s use that same counter. The compact CTA appears after the second section ends. `StepByStep` wraps the existing `Steps` ordered list.
 
-Required frontmatter: `icon` is one of the 20 names in `src/data/glyphs.ts`; `infographic` contains a nonempty `title` and 3 to 6 `items`, each with `label` (1 to 40 characters) and `detail` (1 to 90 characters). Optional `publishOn` is an ISO datetime string with a timezone offset, for example `2026-11-06T08:00:00-08:00`.
+Required frontmatter: `icon` is one of the 20 names in `src/data/glyphs.ts`; `infographic` contains a nonempty `title` and 3 to 6 `items`, each with `label` (1 to 40 characters) and `detail` (1 to 90 characters). Quote `publishOn` in YAML so it remains a string. Optional `publishOn` is an ISO datetime string with a timezone offset, with or without seconds, for example `2026-11-06T08:00-08:00` or `2026-11-06T08:00:00-08:00`. A value other than 08:00 in America/Los_Angeles produces a warning, not a failure. A guide goes live at the first 08:00 Pacific scheduled run at or after publishOn (or any earlier push to main after publishOn). RSS pubDate and hub ordering use publishOn ?? verifiedOn.
 
 `Cover.astro` renders the pillar label and an original decorative 24x24 stroke SVG on a brand gradient, above each guide title and as a card thumbnail. The H1 remains HTML. `Infographic.astro` follows TLDR automatically using frontmatter, with a figcaption and an ordered list of numbered HTML labels and details. It flows horizontally on wide screens and vertically on narrow screens, follows RTL direction and uses only brand tokens. Graphics require no external requests or animation.
 

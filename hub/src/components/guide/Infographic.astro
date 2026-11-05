@@ -1,9 +1,9 @@
 ---
 interface Props {title:string;items:{label:string;detail:string}[]}
 const {title,items}=Astro.props;
-const lang=Astro.url.pathname.includes('/ar/')?'ar':'en';
+const lang=((Astro.locals as {lang?:'en'|'ar'}).lang ?? (Astro.currentLocale==='ar'?'ar':'en'));
 ---
-<figure class="infographic" data-infographic dir={lang==='ar'?'rtl':'ltr'}><figcaption>{title}</figcaption><ol role="list">{items.map((item,i)=><li><span class="number" aria-hidden="true">{new Intl.NumberFormat(lang).format(i+1)}</span><strong>{item.label}</strong><p>{item.detail}</p></li>)}</ol></figure>
+<figure class="infographic" data-infographic dir={lang==='ar'?'rtl':'ltr'}><figcaption>{title}</figcaption><ol role="list">{items.map((item,i)=><li><span class="number">{new Intl.NumberFormat(lang).format(i+1)}</span><strong>{item.label}</strong><p>{item.detail}</p></li>)}</ol></figure>
 <style>
 .infographic{margin:var(--space-6) 0;padding:var(--space-5);background:var(--surface-1);border:1px solid var(--border-default);border-radius:var(--radius-lg)}figcaption{font-weight:var(--fw-bold);margin-block-end:var(--space-5)}ol{display:flex;gap:var(--space-4);list-style:none;padding:0;margin:0}li{flex:1;min-inline-size:0;border-inline-start:2px solid var(--accent);padding-inline-start:var(--space-3)}strong{display:block}.number{display:inline-grid;place-items:center;background:var(--gradient-ai-chip);color:var(--fg-on-accent);border-radius:var(--radius-pill);inline-size:2rem;block-size:2rem;margin-block-end:var(--space-3)}p{margin-block:var(--space-2) 0}@media(max-width:60rem){ol{flex-direction:column}}@media(prefers-reduced-motion:reduce){*{animation:none;transition:none}}
 </style>
