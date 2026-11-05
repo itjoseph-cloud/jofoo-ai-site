@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {readFileSync} from 'node:fs';
 const mode=process.argv[2]??'preview';
-const en='dist/guides/sample-guide/index.html',ar='dist/ar/guides/sample-guide/index.html';
+const en='dist/sample-guide/index.html',ar='dist/ar/sample-guide/index.html';
 if(mode==='preview'){
  for(const file of [en,ar]){assert.ok(existsSync(file),file);const text=readFileSync(file,'utf8');for(const token of ['hreflang="en"','hreflang="ar"','hreflang="x-default"','rel="canonical"','"@type":"Article"','data-copy'])assert.ok(text.includes(token),`${file}: ${token}`);const headings=[...text.matchAll(/<h2[^>]*>/g)];assert.ok(headings.length>=2);const cta=file===en?'Keep a Prompt Pack Handy':'احتفظ بحزمة توجيهات جاهزة';assert.ok(text.indexOf(cta)>headings[1].index);assert.equal(text.split(cta).length-1,1);}
  assert.ok(readFileSync(ar,'utf8').includes('dir="rtl"'));

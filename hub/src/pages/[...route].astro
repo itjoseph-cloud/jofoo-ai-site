@@ -1,4 +1,7 @@
 ---
+import {asset} from '../lib/site.mjs';
+import {getCollection} from 'astro:content';
+import {assertGuideSlugs} from '../lib/guide-routes.mjs';
 import {findCounterpart,videoMetadata} from '../lib/content-rules.mjs';
 import Base from '../layouts/Base.astro';
 import Hub from '../components/Hub.astro';
@@ -9,25 +12,25 @@ import Prompt from '../components/guide/Prompt.astro';
 import {ui,path,absolute,type Lang} from '../i18n/ui';
 import {pillars} from '../data/pillars';
 import {guides,slug,extractPrompts,type Guide} from '../lib/guides';
-export async function getStaticPaths(){const items=await guides();return (['en','ar'] as const).flatMap(lang=>['','prompts','newsletter','newsletter/thanks','links','about','editorial-policy',...Object.keys(pillars).map(p=>`topics/${p}`),...items.filter(g=>g.data.lang===lang).map(g=>`guides/${slug(g)}`)].map(suffix=>({params:{route:`${lang==='ar'?'ar/':''}${suffix}`||undefined},props:{lang,suffix,guide:items.find(g=>g.data.lang===lang&&suffix===`guides/${slug(g)}`)}})));}
+export async function getStaticPaths(){await assertGuideSlugs((await getCollection('guides')).map(slug));const items=await guides();return (['en','ar'] as const).flatMap(lang=>['','prompts','newsletter','newsletter/thanks','links','about','editorial-policy',...Object.keys(pillars).map(p=>`topics/${p}`),...items.filter(g=>g.data.lang===lang).map(g=>slug(g))].map(suffix=>({params:{route:`${lang==='ar'?'ar/':''}${suffix}`||undefined},props:{lang,suffix,guide:items.find(g=>g.data.lang===lang&&suffix===slug(g))}})));}
 interface Props{lang:Lang;suffix:string;guide?:Guide}
 const {lang,suffix,guide}=Astro.props,t=ui[lang],items=await guides(lang),all=await guides();
 const pillar=suffix.startsWith('topics/')?suffix.split('/')[1] as keyof typeof pillars:undefined;
 const title=guide?.data.title??(pillar?pillars[pillar][lang][0]:suffix==='prompts'?t.prompts:suffix==='newsletter'?t.newsletter:suffix==='newsletter/thanks'?t.thanks:suffix==='links'?t.links:suffix==='about'?t.about:suffix==='editorial-policy'?t.policy:t.hero);
 const description=guide?.data.description??(pillar?pillars[pillar][lang][1]:t.intro);
 const counterpart=guide?findCounterpart(guide,all,process.env.INCLUDE_DRAFTS==='1'):undefined;
-const alternate=guide?(counterpart?`guides/${counterpart.id.split('/').pop()}`:null):suffix;
-const organization={'@type':'Organization',name:'Jofoo AI',url:absolute(path('en')),logo:absolute('/jofooai/brand/logo-on-dark.png')};
+const alternate=guide?(counterpart?counterpart.id.split('/').pop()!:null):suffix;
+const organization={'@type':'Organization',name:'Jofoo AI',url:absolute(path('en')),logo:absolute(asset('brand/logo-on-dark.png'))};
 const jsonld:Record<string,unknown>[]=!suffix?[organization,{'@type':'WebSite',name:'Jofoo AI',url:absolute(path(lang)),potentialAction:{'@type':'SearchAction',target:`${absolute(path(lang))}?q={search_term_string}`,'query-input':'required name=search_term_string'}}]:[];
-if(guide){const d=guide.data;jsonld.push({'@type':'Article',headline:d.title,description:d.description,datePublished:d.verifiedOn.toISOString(),dateModified:(d.updatedOn??d.verifiedOn).toISOString(),inLanguage:lang,author:organization,mainEntityOfPage:absolute(path(lang,suffix)),image:absolute('/jofooai/og-default.png')},{'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:t.home,item:absolute(path(lang))},{'@type':'ListItem',position:2,name:d.title,item:absolute(path(lang,suffix))}]});if(d.faq.length)jsonld.push({'@type':'FAQPage',mainEntity:d.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))});d.videoIds?.forEach(v=>jsonld.push({'@type':'VideoObject',name:d.title,description:d.description,thumbnailUrl:absolute('/jofooai/og-default.png'),...videoMetadata(v,d.videoUploadDate)}));}
+if(guide){const d=guide.data;jsonld.push({'@type':'Article',headline:d.title,description:d.description,datePublished:d.verifiedOn.toISOString(),dateModified:(d.updatedOn??d.verifiedOn).toISOString(),inLanguage:lang,author:organization,mainEntityOfPage:absolute(path(lang,suffix)),image:absolute(asset('og-default.png'))},{'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:t.home,item:absolute(path(lang))},{'@type':'ListItem',position:2,name:d.title,item:absolute(path(lang,suffix))}]});if(d.faq.length)jsonld.push({'@type':'FAQPage',mainEntity:d.faq.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))});d.videoIds?.forEach(v=>jsonld.push({'@type':'VideoObject',name:d.title,description:d.description,thumbnailUrl:absolute(asset('og-default.png')),...videoMetadata(v,d.videoUploadDate)}));}
 ---
-<Base {lang} {title} {description} {suffix} {alternate} {jsonld}>
+<Base isGuide={!!guide} {lang} {title} {description} {suffix} {alternate} {jsonld}>
 {!suffix?<Hub {lang}/>:guide?<GuidePage {guide}/>:<div class="article"><h1>{title}</h1>
 {pillar&&<><p class="lead">{pillars[pillar][lang][1]}</p><Cards items={items.filter(g=>g.data.pillar===pillar)} {lang}/>{!items.some(g=>g.data.pillar===pillar)&&<p>{t.empty}</p>}</>}
-{suffix==='prompts'&&<><p>{t.promptIntro}</p>{items.flatMap(g=>extractPrompts(g.body??'').map(p=><section><Prompt label={p.label}>{p.text}</Prompt><a href={path(lang,`guides/${slug(g)}`)}>{g.data.title}</a></section>))}{!items.length&&<p>{t.empty}</p>}</>}
+{suffix==='prompts'&&<><p>{t.promptIntro}</p>{items.flatMap(g=>extractPrompts(g.body??'').map(p=><section><Prompt label={p.label}>{p.text}</Prompt><a href={path(lang,slug(g))}>{g.data.title}</a></section>))}{!items.length&&<p>{t.empty}</p>}</>}
 {suffix==='newsletter'&&<Newsletter {lang}/>}
 {suffix==='newsletter/thanks'&&<p>{t.thanksBody}</p>}
-{suffix==='links'&&<div class="link-stack">{items.slice(0,5).map(g=><a class="button" href={path(lang,`guides/${slug(g)}`)}>{g.data.title}</a>)}<a class="button" href={path(lang,'newsletter')}>{t.newsletter}</a><a class="button" href="https://www.youtube.com/@jofooai">YouTube</a><a class="button" href="https://www.instagram.com/jofooai">Instagram</a></div>}
+{suffix==='links'&&<div class="link-stack">{items.slice(0,5).map(g=><a class="button" href={path(lang,slug(g))}>{g.data.title}</a>)}<a class="button" href={path(lang,'newsletter')}>{t.newsletter}</a><a class="button" href="https://www.youtube.com/@jofooai">YouTube</a><a class="button" href="https://www.instagram.com/jofooai">Instagram</a></div>}
 {(suffix==='about'||suffix==='editorial-policy')&&<><p class="lead">{suffix==='about'?t.aboutBody:t.policyBody}</p><p>{t.disclosure}</p><a href={path(lang,suffix==='about'?'editorial-policy':'about')}>{suffix==='about'?t.policy:t.about}</a></>}
 </div>}
 </Base>

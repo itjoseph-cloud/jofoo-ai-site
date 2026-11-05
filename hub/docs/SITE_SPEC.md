@@ -1,6 +1,6 @@
 # Jofoo AI Guides Hub: site build spec (v1)
 
-Public URL: `https://jofoo.tech/jofooai/`. GitHub Pages project site, no CNAME file. Astro `site: 'https://jofoo.tech'`, `base: '/jofooai'`, `trailingSlash: 'always'`, `output: 'static'`.
+Public URL: `https://jofooai.jofoo.tech/guides/`. GitHub Pages project site, no CNAME file. Astro `site: 'https://jofooai.jofoo.tech'`, `base: '/guides'`, `trailingSlash: 'always'`, `output: 'static'`.
 
 ## Rules
 - All copy is original. No text, layout or images from any other site.
@@ -12,7 +12,7 @@ Public URL: `https://jofoo.tech/jofooai/`. GitHub Pages project site, no CNAME f
 - Fast: zero client JS on content pages except small islands for the copy button, the search box and the language switcher.
 
 ## Languages
-- English at `/jofooai/...` and Arabic at `/jofooai/ar/...`, using Astro i18n (`defaultLocale: 'en'`, `locales: ['en','ar']`, `prefixDefaultLocale: false`).
+- English at `/guides/...` and Arabic at `/guides/ar/...`, using Astro i18n (`defaultLocale: 'en'`, `locales: ['en','ar']`, `prefixDefaultLocale: false`).
 - Arabic pages set `<html lang="ar" dir="rtl">` and use CSS logical properties throughout, so the layout mirrors.
 - Every page outputs `<link rel="alternate" hreflang="en|ar|x-default">` for the pair that exists, plus a self-referencing canonical.
 - UI strings live in `src/i18n/ui.ts` (en and ar). Arabic register is Modern Standard Arabic.
@@ -34,6 +34,7 @@ Put **one** sample guide in `src/content/guides/{en,ar}/sample-guide.mdx` with `
 - `TLDR` is an answer-first summary box at the top.
 
 ## Guide page layout
+Guide URLs: `/guides/<slug>/` and `/guides/ar/<slug>/`.
 In order:
 1. Breadcrumbs
 2. H1 (title)
@@ -51,6 +52,7 @@ In order:
 14. Back to hub
 
 ## Other pages (both languages)
+Routes below are relative to `/guides/` (English) or `/guides/ar/` (Arabic).
 - **Hub `/`:**
   - Hero H1 "What Do You Want to Fix With AI?"
   - Pagefind search box
@@ -72,10 +74,10 @@ In order:
 - `<title>`, meta description, canonical, Open Graph and Twitter tags.
 - OG image: `public/og-default.png` at 1200×630, built from the logo on a solid ocean background (a committed static file is fine).
 - JSON-LD:
-  - Organization and WebSite (with SearchAction pointing at `/jofooai/?q={search_term_string}`) on the hub.
+  - Organization and WebSite (with SearchAction pointing at `/guides/?q={search_term_string}`) on the hub.
   - Article (headline, datePublished = verifiedOn, dateModified = updatedOn or verifiedOn, inLanguage, author = Organization "Jofoo AI"), BreadcrumbList, and FAQPage (when faq is non-empty) on guides.
   - VideoObject when videoIds is present.
-- `@astrojs/sitemap` with i18n alternates. `robots.txt` allows all and links the sitemap. RSS at `/rss.xml` and `/ar/rss.xml`. `llms.txt` lists the hub, topics and guides with one-line descriptions.
+- `@astrojs/sitemap` with i18n alternates. `robots.txt` is served at the domain root by the deploy job. RSS at `/guides/rss.xml` and `/guides/ar/rss.xml`. `llms.txt` lists the hub, topics and guides with one-line descriptions.
 
 ## Search
 Pagefind runs after `astro build` (`pagefind --site dist`). Index only guide bodies (`data-pagefind-body`), with filters for pillar and language. The hub search reads `?q=`.
@@ -93,7 +95,7 @@ Pagefind runs after `astro build` (`pagefind --site dist`). Index only guide bod
 
 ## Acceptance
 `npm run verify` exits 0.
-- After `build:preview`: `dist/guides/sample-guide/index.html` and `dist/ar/guides/sample-guide/index.html` exist, and they contain hreflang, canonical, Article JSON-LD and `dir="rtl"` (Arabic).
+- After `build:preview`: `dist/sample-guide/index.html` and `dist/ar/sample-guide/index.html` exist, and they contain hreflang, canonical, Article JSON-LD and `dir="rtl"` (Arabic).
 - After a plain `npm run build`: the sample guide is not present, the hub shows the empty state, and `dist/pagefind/` exists.
 
 ## Review corrections

@@ -1,4 +1,5 @@
 ---
+import {asset} from '../lib/site.mjs';
 import {render} from 'astro:content';
 import {type Guide, guides, date} from '../lib/guides';
 import {ui,path} from '../i18n/ui';
@@ -23,5 +24,5 @@ const related=(await guides(d.lang)).filter(g=>g.id!==guide.id).sort((a,b)=>Numb
 <Content components={{Prompt,Steps,Step,Tip,Warning,Safety,Shot,Checklist,TLDR,Newsletter,h2:Heading}}/>
 {d.faq.length>0&&<section><h2>{t.faq}</h2>{d.faq.map(f=><details><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>}
 <section><h2>{t.sources}</h2><ul>{d.sources.map(s=><li><a href={s.url}>{s.title}</a> — {t.accessed} {date(s.accessed,d.lang)}</li>)}</ul></section><p>{t.disclosure}</p>
-{d.videoIds?.map(v=><aside data-pagefind-ignore><a href={v.youtube?`https://www.youtube.com/watch?v=${v.youtube}`:`https://www.instagram.com/p/${v.instagram}/`}><img src="/jofooai/og-default.png" width="1200" height="630" loading="lazy" alt={t.watch} style="max-inline-size:100%;block-size:auto"/>{t.watch}</a></aside>)}
+{d.videoIds?.map(v=><aside data-pagefind-ignore><a href={v.youtube?`https://www.youtube.com/watch?v=${v.youtube}`:`https://www.instagram.com/p/${v.instagram}/`}><img src={asset('og-default.png')} width="1200" height="630" loading="lazy" alt={t.watch} style="max-inline-size:100%;block-size:auto"/>{t.watch}</a></aside>)}
 <Newsletter lang={d.lang}/>{related.length>0&&<section data-pagefind-ignore><h2>{t.related}</h2><Cards items={related} lang={d.lang}/></section>}<p data-pagefind-ignore><a href={path(d.lang)}>{t.back}</a></p></article>

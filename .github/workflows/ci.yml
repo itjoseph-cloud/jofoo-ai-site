@@ -5,11 +5,20 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hub
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: hub/package-lock.json
       - run: npm ci
       - run: npm run verify
+      - run: npm test
+      - run: npm run build
+      - run: node scripts/check-acceptance.mjs build
+      - run: bash scripts/assemble-site.sh
+        working-directory: .
