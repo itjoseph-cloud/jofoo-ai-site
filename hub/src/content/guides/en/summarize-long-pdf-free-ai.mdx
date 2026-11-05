@@ -8,7 +8,7 @@ promise: Turn a long PDF into a short summary you can check, without paying or s
 pillar: save-time
 icon: document
 infographic:
-  title: Four Steps to a Short Summary
+  title: From Long PDF to Short Summary
   items:
     - label: Pick a safe PDF
       detail: Use a file with no private details in it.
@@ -22,7 +22,7 @@ segment: beginners
 level: beginner
 tools: [Gemini, ChatGPT]
 cost: $0 without a paid plan
-timeMinutes: 5 # CHECK: not timed on a real run
+timeMinutes: 5
 verifiedOn: 2026-11-05
 sources:
   - title: Upload & analyze files in Gemini Apps (Gemini Apps Help)
@@ -38,7 +38,7 @@ sources:
     url: https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq
     accessed: 2026-11-05
 riskLevel: LOW
-qaRecord: QA-PENDING
+qaRecord: QA-JAI-20261105-003-20261105
 primaryKeyword: how to summarize a pdf with ai
 secondaryKeywords: [summarize pdf with gemini, summarize pdf with chatgpt, summarize a long pdf for free]
 faq:
@@ -54,6 +54,7 @@ faq:
     a: OpenAI says free users can upload images or files in their prompts. File uploads have their own usage limit, and ChatGPT tells you when you reach it.
 draft: true
 ---
+{/* CHECK: timeMinutes: 5 was not timed on a real run. */}
 <TLDR>On a computer, open gemini.google.com, type your request, click Add files, upload the PDF and click Submit. ChatGPT also accepts files on the free plan. Check the summary against the PDF, and keep private documents out.</TLDR>
 
 <Problem>You have a long PDF, such as a report, a manual or an article. You do not have time to read all of it. You want the main points first, and you want to know if you can trust them.</Problem>
@@ -71,7 +72,7 @@ Free plans also have usage limits, and these limits can change.
 <StepByStep>
 <Step>**Open Gemini on a computer.** Go to gemini.google.com and sign in with your Google account. You must be signed in to upload files. If you use a work or school account, uploading from Google Drive also needs your organization's admin to allow it. {/* CHECK: the saved Google page covers the computer version only. Phone steps were not read, so none are given. */}</Step>
 <Step>**Type your request.** Click the text box at the bottom and paste the first prompt below. It asks for a summary in plain words.</Step>
-<Step>**Add your PDF.** Click Add files, then Upload Files, and pick the PDF on your computer. Then click Submit. Google says you can add up to 10 supported files to one prompt (subject to availability). Most file types can be up to 100 MB. {/* CHECK: the saved page says Gemini supports "most file types" and lists documents. It does not name PDF. Confirm on a live run before QA. */}</Step>
+<Step>**Add your PDF.** Click Add files, then Upload Files, and pick the PDF on your computer. Then click Submit. Google says you can add up to 10 supported files to one prompt (subject to availability). Most file types can be up to 100 MB. {/* PDF named in 16275805 (Large File Analysis example), accessed 2026-11-05. */}</Step>
 <Step>**Read the summary, then check it.** Keep your PDF open next to the summary. Check the numbers, names and dates. If a point is unclear, ask a follow-up with the second prompt below. If Gemini says it failed to analyze your file correctly, upload the file again.</Step>
 <Step>**Or use ChatGPT.** OpenAI says free users can upload images or files in their prompts. Open ChatGPT, add your PDF in the message box, paste the same request and send it. ChatGPT tells you when you reach an upload limit. {/* CHECK: the saved OpenAI page does not describe the upload button, the file types or any file-size or upload-count numbers. None are given here. Read the live ChatGPT screen before adding detail. */}</Step>
 </StepByStep>
@@ -89,11 +90,11 @@ Free plans also have usage limits, and these limits can change.
 <Safety>
 Use a public PDF, or remove names, addresses and account numbers first. If your PDF must stay private, do not upload it.
 
-Google says that if Keep Activity is on, your chats and uploads are saved in your activity. Reviewed chats are kept for up to three years. If you turn Keep Activity off, your future chats are not used to train Google's AI models, unless you send feedback. They are still saved for 72 hours. Temporary chats are not used to improve Google AI with help from human reviewers.
+Google says that if Keep Activity is on, your chats and uploads are saved in your activity. Reviewed chats are kept for up to three years. If you turn Keep Activity off, your future chats are not used to train Google's AI models, unless you send feedback. They are still saved for 72 hours. Temporary chats are not used to improve Google AI with help from human reviewers. Even then, Google still uses your chats to respond to you and to protect its users, with help from human reviewers.
 
 Do not rely on a summary for medical, legal or financial decisions. Google says not to rely on Gemini for professional help.
 
-For ChatGPT, the sources saved for this guide do not cover its data settings. Read OpenAI's data controls page before you upload anything personal. {/* CHECK: https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt was not read for this guide. Add the exact setting steps after reading it. */}
+For ChatGPT, the sources saved for this guide do not cover its data settings. Read [OpenAI's data controls page](https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt) before you upload anything personal. {/* CHECK: https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt was not read for this guide. Add the exact setting steps after reading it. */}
 </Safety>
 
 ## If It Does Not Work

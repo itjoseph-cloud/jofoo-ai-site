@@ -8,7 +8,7 @@ promise: حوّل ملف PDF طويلاً إلى ملخص قصير يمكنك ا
 pillar: save-time
 icon: document
 infographic:
-  title: أربع خطوات إلى ملخص قصير
+  title: من ملف PDF طويل إلى ملخص قصير
   items:
     - label: اختر ملف PDF آمناً
       detail: استخدم ملفاً لا يحتوي على تفاصيل خاصة.
@@ -22,7 +22,7 @@ segment: beginners
 level: beginner
 tools: [Gemini, ChatGPT]
 cost: $0 بدون خطة مدفوعة
-timeMinutes: 5 # CHECK: not timed on a real run
+timeMinutes: 5
 verifiedOn: 2026-11-05
 sources:
   - title: Upload & analyze files in Gemini Apps (مساعدة تطبيقات Gemini، بالإنجليزية)
@@ -38,14 +38,14 @@ sources:
     url: https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq
     accessed: 2026-11-05
 riskLevel: LOW
-qaRecord: QA-PENDING
+qaRecord: QA-JAI-20261105-003-20261105
 primaryKeyword: تلخيص ملف pdf بالذكاء الاصطناعي
 secondaryKeywords: [تلخيص pdf بجيميني, تلخيص pdf بشات جي بي تي, تلخيص ملف pdf طويل مجاناً]
 faq:
   - q: هل من الآمن رفع ملف PDF إلى Gemini أو ChatGPT؟
     a: ليس إذا كان يحوي تفاصيل خاصة. تقول Google إن مراجعين بشراً يقرؤون بعض محادثات Gemini، وتطلب ألا تُدخل معلومات سرية. استخدم ملفاً عاماً أو تجريبياً، أو احذف التفاصيل الشخصية أولاً.
   - q: ما طول ملف PDF المسموح به في الخطة المجانية؟
-    a: تقول Google إن نافذة السياق في Gemini، من دون خطة Google AI، هي 32 ألف رمز (32k tokens) حتى 5 نوفمبر 2026. نافذة السياق هي سعة القراءة. إن كان الملف كبيراً جداً فقد يفوّت Gemini بعض التفاصيل، فارفع ملفاً أصغر.
+    a: تقول Google إن نافذة السياق في Gemini، من دون خطة Google AI، هي 32 ألف رمز (32k tokens) بحسب صفحة Google في 5 نوفمبر 2026. نافذة السياق هي سعة القراءة. إن كان الملف كبيراً جداً فقد يفوّت Gemini بعض التفاصيل، فارفع ملفاً أصغر.
   - q: هل الملخص صحيح دائماً؟
     a: لا. تقول Google إن أدوات المحادثة بالذكاء الاصطناعي قد تعرض معلومات غير دقيقة على أنها حقائق. تحقق من الأرقام والأسماء والتواريخ في الملف قبل أن تعتمد على الملخص.
   - q: هل أستطيع رفع أكثر من ملف PDF في المرة الواحدة؟
@@ -54,6 +54,7 @@ faq:
     a: تقول OpenAI إن مستخدمي الخطة المجانية يستطيعون رفع الصور أو الملفات مع أوامرهم. لرفع الملفات حد استخدام خاص، ويخبرك ChatGPT عندما تصل إليه.
 draft: true
 ---
+{/* CHECK: timeMinutes: 5 was not timed on a real run. */}
 <TLDR>لتلخيص ملف PDF بالذكاء الاصطناعي من الحاسوب، افتح gemini.google.com واكتب طلبك، ثم اضغط `Add files` وارفع الملف واضغط `Submit`. يقبل ChatGPT الملفات أيضاً على الخطة المجانية. قارن الملخص بالملف نفسه، وأبعد المستندات الخاصة.</TLDR>
 
 <Problem>لديك ملف PDF طويل، مثل تقرير أو دليل استخدام أو مقال. ليس عندك وقت لقراءته كله. تريد النقاط الرئيسية أولاً، وتريد أن تعرف هل تستطيع الوثوق بها.</Problem>
@@ -61,7 +62,7 @@ draft: true
 <Why>
 أدوات المحادثة تستطيع قراءة ملف ترفعه وكتابة ملخص له. تقول Google إنك تستطيع رفع المستندات إلى Gemini لتحصل على إجابات وملخصات ورؤى.
 
-لكن كل أداة تقرأ كمية محدودة في المرة الواحدة. تسمي Google هذا نافذة السياق (context window). وبدون خطة Google AI، نافذة السياق في Gemini هي 32 ألف رمز (32k tokens) حتى 5 نوفمبر 2026. وإذا كان الملف كبيراً جداً، تقول Google إن Gemini قد يفوّت الروابط أو التفاصيل.
+لكن كل أداة تقرأ كمية محدودة في المرة الواحدة. تسمي Google هذا نافذة السياق (context window). وبدون خطة Google AI، نافذة السياق في Gemini هي 32 ألف رمز (32k tokens) بحسب صفحة Google في 5 نوفمبر 2026. وإذا كان الملف كبيراً جداً، تقول Google إن Gemini قد يفوّت الصلات بين الأجزاء أو بعض التفاصيل.
 
 وللخطط المجانية حدود استخدام أيضاً، وقد تتغير هذه الحدود.
 </Why>
@@ -70,8 +71,8 @@ draft: true
 
 <StepByStep>
 <Step>**افتح Gemini على الحاسوب.** اذهب إلى gemini.google.com وسجّل الدخول بحساب Google. يجب أن تكون مسجلاً للدخول لترفع الملفات. وإذا كنت تستخدم حساب عمل أو مدرسة، فالرفع من Google Drive يحتاج أيضاً إلى سماح من مسؤول مؤسستك. {/* CHECK: the saved Google page covers the computer version only. Phone steps were not read, so none are given. */}</Step>
-<Step>**اكتب طلبك.** اضغط على مربع النص في الأسفل، والصق الأمر (البرومبت) الأول أدناه. هو يطلب ملخصاً بكلمات بسيطة.</Step>
-<Step>**أضف ملف PDF.** اضغط `Add files`، ثم `Upload Files`، واختر ملف PDF من حاسوبك. ثم اضغط `Submit`. تقول Google إنك تستطيع إضافة ما يصل إلى 10 ملفات مدعومة في أمر واحد (بحسب التوفر). ويمكن أن يبلغ حجم معظم أنواع الملفات 100 ميغابايت. {/* CHECK: the saved page says Gemini supports "most file types" and lists documents. It does not name PDF. Confirm on a live run before QA. */} {/* CHECK: Arabic Gemini labels (Add files, Upload Files, Submit) must be confirmed on an Arabic-language screen. They are kept in English until then. */}</Step>
+<Step>**اكتب طلبك.** اضغط على مربع النص في الأسفل، والصق الأمر (البرومبت) الأول أدناه. وهو يطلب ملخصاً بكلمات بسيطة.</Step>
+<Step>**أضف ملف PDF.** اضغط `Add files`، ثم `Upload Files`، واختر ملف PDF من حاسوبك. ثم اضغط `Submit`. تقول Google إنك تستطيع إضافة ما يصل إلى 10 ملفات مدعومة في أمر واحد (بحسب التوفر). ويمكن أن يبلغ حجم معظم أنواع الملفات 100 ميغابايت. {/* PDF named in 16275805 (Large File Analysis example), accessed 2026-11-05. */} {/* CHECK: Arabic Gemini labels (Add files, Upload Files, Submit) must be confirmed on an Arabic-language screen. They are kept in English until then. */}</Step>
 <Step>**اقرأ الملخص ثم تحقق منه.** أبقِ ملف PDF مفتوحاً بجانب الملخص. راجع الأرقام والأسماء والتواريخ. وإن كانت نقطة غير واضحة، فاسأل سؤالاً إضافياً بالأمر الثاني أدناه. وإذا قال Gemini إنه فشل في تحليل ملفك بشكل صحيح، فارفع الملف من جديد.</Step>
 <Step>**أو استخدم ChatGPT.** تقول OpenAI إن مستخدمي الخطة المجانية يستطيعون رفع الصور أو الملفات مع أوامرهم. افتح ChatGPT، وأضف ملف PDF في مربع الرسالة، والصق الطلب نفسه، ثم أرسله. يخبرك ChatGPT عندما تصل إلى حد الرفع. {/* CHECK: the saved OpenAI page does not describe the upload button, the file types or any file-size or upload-count numbers. None are given here. Read the live ChatGPT screen before adding detail. */}</Step>
 </StepByStep>
@@ -89,11 +90,11 @@ draft: true
 <Safety>
 استخدم ملف PDF عاماً، أو احذف الأسماء والعناوين وأرقام الحسابات أولاً. وإذا كان ملفك يجب أن يبقى خاصاً، فلا ترفعه.
 
-تقول Google إنه عندما يكون `Keep Activity` مفعّلاً، تُحفظ محادثاتك وما ترفعه في نشاطك. وتُحفظ المحادثات التي روجعت مدة تصل إلى ثلاث سنوات. وإذا أوقفت `Keep Activity`، فلن تُستخدم محادثاتك القادمة لتدريب نماذج الذكاء الاصطناعي من Google، إلا إذا أرسلت ملاحظات. وتبقى محفوظة مدة 72 ساعة. أما المحادثات المؤقتة فلا تُستخدم لتحسين الذكاء الاصطناعي من Google بمساعدة مراجعين بشراً.
+تقول Google إنه عندما يكون `Keep Activity` مفعّلاً، تُحفظ محادثاتك وما ترفعه في نشاطك. وتُحفظ المحادثات التي روجعت مدة تصل إلى ثلاث سنوات. وإذا أوقفت `Keep Activity`، فلن تُستخدم محادثاتك القادمة لتدريب نماذج الذكاء الاصطناعي من Google، إلا إذا أرسلت ملاحظات. وتبقى محفوظة مدة 72 ساعة. أما المحادثات المؤقتة فلا تُستخدم لتحسين الذكاء الاصطناعي من Google بمساعدة مراجعين بشراً. ومع ذلك، تظل Google تستخدم محادثاتك للرد عليك ولحماية مستخدميها، بمساعدة مراجعين بشريين.
 
 لا تعتمد على الملخص في قرارات طبية أو قانونية أو مالية. تقول Google ألا تعتمد على Gemini للحصول على مساعدة مهنية.
 
-أما ChatGPT، فالمصادر المحفوظة لهذا الدليل لا تغطي إعدادات بياناته. اقرأ صفحة OpenAI عن التحكم في البيانات قبل أن ترفع أي شيء شخصي. {/* CHECK: https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt was not read for this guide. Add the exact setting steps after reading it. */}
+أما ChatGPT، فالمصادر المحفوظة لهذا الدليل لا تغطي إعدادات بياناته. اقرأ [صفحة OpenAI عن التحكم في البيانات](https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt) قبل أن ترفع أي شيء شخصي. {/* CHECK: https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt was not read for this guide. Add the exact setting steps after reading it. */}
 </Safety>
 
 ## إذا لم ينجح تلخيص ملف PDF بالذكاء الاصطناعي
