@@ -1,4 +1,5 @@
 export const pillars = {
+ 'prompt-packs': {en:['Prompt Packs','Start with a focused set of prompts, adapt them to your task, and review each response before using it.'],ar:['حزم الأوامر','ابدأ بمجموعة أوامر لمهمة محددة، وعدّلها لتناسب احتياجك، ثم راجع كل إجابة قبل استخدامها.']},
  'fix-it': {en:['Fix It','Work through a specific problem with clear steps and a way to check the result.'],ar:['حل مشكلة','عالج مشكلة محددة بخطوات واضحة وطريقة لمراجعة النتيجة.']},
  'save-time': {en:['Save Time','Make recurring tasks easier while keeping the decisions in your hands.'],ar:['وفّر الوقت','بسّط المهام المتكررة مع الاحتفاظ بالقرارات بين يديك.']},
  tools: {en:['Choose Tools','Understand what a tool offers, what it costs, and where its limits matter.'],ar:['اختر الأدوات','تعرّف على إمكانات الأداة وتكلفتها وحدود استخدامها.']},

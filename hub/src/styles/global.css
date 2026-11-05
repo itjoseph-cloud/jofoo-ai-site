@@ -8,3 +8,4 @@
 html[lang=ar] pre{font-family:var(--font-body);direction:rtl}
 
 html[lang=ar] .breadcrumbs,html[lang=ar] .eyebrow{font-family:var(--font-body);letter-spacing:0;text-transform:none}
+.callout-label{display:flex;align-items:center;gap:var(--space-2);margin-block-end:var(--space-3)}

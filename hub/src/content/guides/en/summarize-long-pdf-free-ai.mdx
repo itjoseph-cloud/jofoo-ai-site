@@ -1,0 +1,111 @@
+---
+contentId: JAI-20261105-003
+lang: en
+translationOf: summarize-long-pdf-free-ai
+title: Summarize a Long PDF With Free ChatGPT or Gemini
+description: Get a short summary of a long PDF with Gemini or ChatGPT on the free plan. Follow five plain steps, then check the result and keep private files out.
+promise: Turn a long PDF into a short summary you can check, without paying or sharing private files.
+pillar: save-time
+icon: document
+infographic:
+  title: From Long PDF to Short Summary
+  items:
+    - label: Pick a safe PDF
+      detail: Use a file with no private details in it.
+    - label: Upload it in the chat
+      detail: Add the file, then ask for a summary in plain words.
+    - label: Check the summary
+      detail: Compare numbers, names and dates with the PDF.
+    - label: Fix problems
+      detail: Upload a smaller file or try again later.
+segment: beginners
+level: beginner
+tools: [Gemini, ChatGPT]
+cost: $0 without a paid plan
+timeMinutes: 5
+verifiedOn: 2026-11-05
+sources:
+  - title: Upload & analyze files in Gemini Apps (Gemini Apps Help)
+    url: https://support.google.com/gemini/answer/14903178
+    accessed: 2026-11-05
+  - title: Gemini Apps limits & feature availability (Gemini Apps Help)
+    url: https://support.google.com/gemini/answer/16275805
+    accessed: 2026-11-05
+  - title: Gemini Apps Privacy Hub (Gemini Apps Help)
+    url: https://support.google.com/gemini/answer/13594961
+    accessed: 2026-11-05
+  - title: ChatGPT Free Tier FAQ (OpenAI Help Center)
+    url: https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq
+    accessed: 2026-11-05
+riskLevel: LOW
+qaRecord: QA-JAI-20261105-003-20261105
+primaryKeyword: how to summarize a pdf with ai
+secondaryKeywords: [summarize pdf with gemini, summarize pdf with chatgpt, summarize a long pdf for free]
+faq:
+  - q: Is it safe to upload a PDF to Gemini or ChatGPT?
+    a: Not if it holds private details. Google says human reviewers read some Gemini chats, and it asks you not to enter confidential information. Use a public or sample PDF, or remove personal details first.
+  - q: How long can the PDF be on the free plan?
+    a: Google says that without a Google AI plan, Gemini's context window is 32k tokens (as of 5 November 2026). A context window is its reading capacity. If a file is too large, Gemini may miss details, so upload a smaller file.
+  - q: Is the summary always correct?
+    a: No. Google says AI chat tools can present inaccurate information as fact. Check numbers, names and dates in the PDF before you rely on the summary.
+  - q: Can I upload more than one PDF at a time?
+    a: In Gemini, Google says you can add up to 10 supported files to one prompt, subject to availability. Higher limits come with paid Google AI plans.
+  - q: Does free ChatGPT accept files?
+    a: OpenAI says free users can upload images or files in their prompts. File uploads have their own usage limit, and ChatGPT tells you when you reach it.
+draft: false
+---
+{/* CHECK: timeMinutes: 5 was not timed on a real run. */}
+<TLDR>On a computer, open gemini.google.com, type your request, click Add files, upload the PDF and click Submit. ChatGPT also accepts files on the free plan. Check the summary against the PDF, and keep private documents out.</TLDR>
+
+<Problem>You have a long PDF, such as a report, a manual or an article. You do not have time to read all of it. You want the main points first, and you want to know if you can trust them.</Problem>
+
+<Why>
+Chat tools can read a file you upload and write a summary. Google says you can upload documents to Gemini to get answers, summaries and insights.
+
+But each tool can only read so much at once. Google calls this the context window. Without a Google AI plan, Gemini's context window is 32k tokens (as of 5 November 2026). If a file is too large, Google says Gemini may miss connections or details.
+
+Free plans also have usage limits, and these limits can change.
+</Why>
+
+<Fix>Upload the PDF, ask for a summary in plain words, and check the result against the PDF. Start with Gemini. ChatGPT is a second option.</Fix>
+
+<StepByStep>
+<Step>**Open Gemini on a computer.** Go to gemini.google.com and sign in with your Google account. You must be signed in to upload files. If you use a work or school account, uploading from Google Drive also needs your organization's admin to allow it. {/* CHECK: the saved Google page covers the computer version only. Phone steps were not read, so none are given. */}</Step>
+<Step>**Type your request.** Click the text box at the bottom and paste the first prompt below. It asks for a summary in plain words.</Step>
+<Step>**Add your PDF.** Click Add files, then Upload Files, and pick the PDF on your computer. Then click Submit. Google says you can add up to 10 supported files to one prompt (subject to availability). Most file types can be up to 100 MB. {/* PDF named in 16275805 (Large File Analysis example), accessed 2026-11-05. */}</Step>
+<Step>**Read the summary, then check it.** Keep your PDF open next to the summary. Check the numbers, names and dates. If a point is unclear, ask a follow-up with the second prompt below. If Gemini says it failed to analyze your file correctly, upload the file again.</Step>
+<Step>**Or use ChatGPT.** OpenAI says free users can upload images or files in their prompts. Open ChatGPT, add your PDF in the message box, paste the same request and send it. ChatGPT tells you when you reach an upload limit. {/* CHECK: the saved OpenAI page does not describe the upload button, the file types or any file-size or upload-count numbers. None are given here. Read the live ChatGPT screen before adding detail. */}</Step>
+</StepByStep>
+
+{/* SCREENSHOT SLOT: the Gemini text box with the prompt typed in, the Add files menu with Upload Files, and the summary that comes back. Use a public sample PDF only. Hide name, email and chat history. */}
+
+<Prompt label="Summarize a PDF">Summarize this PDF in plain words. Start with a two-sentence overview. Then list the five most important points. Then list anything the document asks me to do or decide. If something is unclear or missing, say so. Do not guess.</Prompt>
+
+<Prompt label="Ask About One Part">Now explain only the part about [topic or heading] in simple words. Tell me which page or heading each point comes from, so I can check it.</Prompt>
+
+<Tip>Start a new chat when you move to a new PDF or topic. Google says this saves usage, because Gemini does not have to re-read a long chat first.</Tip>
+
+<Warning>Do not upload personal documents. Google says human reviewers review some Gemini chats, and it asks you not to enter confidential information that you would not want a reviewer to see. That includes IDs, bank statements, medical records and contracts with your name on them.</Warning>
+
+<Safety>
+Use a public PDF, or remove names, addresses and account numbers first. If your PDF must stay private, do not upload it.
+
+Google says that if Keep Activity is on, your chats and uploads are saved in your activity. Reviewed chats are kept for up to three years. If you turn Keep Activity off, your future chats are not used to train Google's AI models, unless you send feedback. They are still saved for 72 hours. Temporary chats are not used to improve Google AI with help from human reviewers. Even then, Google still uses your chats to respond to you and to protect its users, with help from human reviewers.
+
+Do not rely on a summary for medical, legal or financial decisions. Google says not to rely on Gemini for professional help.
+
+For ChatGPT, the sources saved for this guide do not cover its data settings. Read [OpenAI's data controls page](https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt) before you upload anything personal. {/* CHECK: https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt was not read for this guide. Add the exact setting steps after reading it. */}
+</Safety>
+
+## If It Does Not Work
+
+- **"Delete data to upload file."** Gemini has a storage limit for your chats and uploads. It is separate from Google Drive storage. On a personal account, go to gemini.google.com, select Settings & help, then Activity, and delete some activity. Google says it may take several minutes to free the space. On a work or school account, only your admin can delete activity.
+- **"You've reached your limit for chats with files."** Usage limits reset after some time. Try again later. Google says limits may change without notice.
+- **"Your uploads may be too large for the best results."** Gemini may miss details. Upload a smaller file with less content.
+
+<Checklist>
+<li>I used a PDF with no private details.</li>
+<li>I asked for a summary in plain words.</li>
+<li>I checked numbers, names and dates against the PDF.</li>
+<li>I used a smaller file if I saw a "too large" message.</li>
+</Checklist>

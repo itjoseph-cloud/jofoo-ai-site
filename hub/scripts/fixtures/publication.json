@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "renamed-example",
+    "data": {
+      "lang": "en",
+      "draft": true
+    }
+  },
+  {
+    "slug": "first-guide",
+    "data": {
+      "lang": "en",
+      "draft": false,
+      "publishOn": "2026-11-06T08:00-08:00",
+      "verifiedOn": "2026-11-01",
+      "updatedOn": "2026-11-07"
+    }
+  },
+  {
+    "slug": "future-guide",
+    "data": {
+      "lang": "ar",
+      "draft": false,
+      "publishOn": "2099-11-06T08:00-08:00"
+    }
+  }
+]

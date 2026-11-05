@@ -1,0 +1,7 @@
+---
+import Heading from './Heading.astro';
+import {ui} from '../../i18n/ui';
+
+const t=ui[((Astro.locals as {lang?:'en'|'ar'}).lang ?? (Astro.currentLocale==='ar'?'ar':'en'))];
+---
+<section><Heading>{t.problem}</Heading><slot/></section>

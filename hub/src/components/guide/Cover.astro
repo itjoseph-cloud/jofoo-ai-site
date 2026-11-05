@@ -1,0 +1,16 @@
+---
+import {glyphs,type Glyph} from '../../data/glyphs';
+import {pillars} from '../../data/pillars';
+import type {Lang} from '../../i18n/ui';
+interface Props {icon:Glyph; pillar:keyof typeof pillars; lang:Lang; small?:boolean}
+const {icon,pillar,lang,small=false}=Astro.props;
+---
+<div class:list={['guide-cover',{small}]} dir={lang==='ar'?'rtl':'ltr'} data-guide-cover aria-hidden="true">
+<span>{pillars[pillar][lang][0]}</span>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{glyphs[icon].map(d=><path d={d}/>)}</svg>
+</div>
+<style>
+.guide-cover{display:flex;align-items:center;justify-content:space-between;gap:var(--space-5);padding:var(--space-6);margin-block:var(--space-5);border-radius:var(--radius-lg);background:var(--gradient-ocean);color:var(--white);font-weight:var(--fw-bold)}
+span,svg{background:var(--navy-950);border-radius:var(--radius-md);padding:var(--space-3)}
+svg{inline-size:8rem;block-size:8rem;flex-shrink:0}.small{padding:var(--space-4);margin-block:0 var(--space-4)}.small svg{inline-size:3rem;block-size:3rem}
+</style>
