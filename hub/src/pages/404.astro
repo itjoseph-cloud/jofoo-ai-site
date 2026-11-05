@@ -1,0 +1,5 @@
+---
+import Base from '../layouts/Base.astro';
+import {ui,path} from '../i18n/ui';
+---
+<Base lang="en" title={ui.en.notFound} description={ui.en.missing} suffix="404" alternate={null}><section class="hero"><h1>{ui.en.notFound}</h1><p>{ui.en.missing}</p><a href={path('en')}>{ui.en.back}</a><div lang="ar" dir="rtl"><h2>{ui.ar.notFound}</h2><p>{ui.ar.missing}</p><a href={path('ar')}>{ui.ar.back}</a></div></section></Base>

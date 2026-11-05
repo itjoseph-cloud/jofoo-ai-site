@@ -1,0 +1,7 @@
+---
+import {ui} from '../../i18n/ui';
+interface Props {label?:string}
+const t=ui[Astro.url.pathname.includes('/ar/')?'ar':'en'];
+---
+<section class="prompt"><strong>{Astro.props.label??t.prompt}</strong><pre><code><slot/></code></pre><button type="button" data-copy data-success={t.copied} data-error={t.copyError}>{t.copy}</button><span role="status" aria-live="polite"></span></section>
+<script>document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{const section=button.closest('.prompt')!;const status=section.querySelector('[role=status]')!;try{await navigator.clipboard.writeText(section.querySelector('code')!.textContent??'');status.textContent=button.dataset.success!;}catch{status.textContent=button.dataset.error!;}}));</script>
