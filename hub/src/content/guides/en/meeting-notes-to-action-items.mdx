@@ -1,0 +1,109 @@
+---
+contentId: JAI-20261105-004
+lang: en
+translationOf: meeting-notes-to-action-items
+title: Turn Messy Meeting Notes Into Action Items
+description: Paste messy meeting notes into ChatGPT and get a clear list of tasks, owners and dates. Use a copy-ready prompt, then check the list against your notes.
+promise: Turn rough meeting notes into a clear action list, and know how to check it.
+pillar: save-time
+icon: checklist
+infographic:
+  title: From Notes to Actions at a Glance
+  items:
+    - label: Remove private details
+      detail: Swap names and company details for placeholders.
+    - label: Paste notes with the prompt
+      detail: Ask for each task, who owns it and when it is due.
+    - label: Say "Not stated" for gaps
+      detail: Tell it not to guess owners or dates.
+    - label: Check against your notes
+      detail: Add what is missing and fix what is wrong.
+segment: professionals
+level: beginner
+tools: [ChatGPT]
+cost: $0 on the free plan
+timeMinutes: 5
+verifiedOn: 2026-11-05
+sources:
+  - title: ChatGPT Free Tier FAQ (OpenAI Help Center)
+    url: https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq
+    accessed: 2026-11-05
+  - title: Prompt engineering best practices for ChatGPT (OpenAI Help Center)
+    url: https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt
+    accessed: 2026-11-05
+  - title: Does ChatGPT tell the truth? (OpenAI Help Center)
+    url: https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth
+    accessed: 2026-11-05
+riskLevel: LOW
+qaRecord: QA-JAI-20261105-004-20261105
+primaryKeyword: turn meeting notes into action items
+secondaryKeywords: [meeting notes to action items with ai, summarize meeting notes with chatgpt, chatgpt prompt for meeting notes]
+faq:
+  - q: Can I paste my real meeting notes into ChatGPT?
+    a: Only after you remove private details. Replace names, phone numbers and company details with placeholders such as Person A. If the notes are confidential, do not paste them.
+  - q: Will ChatGPT find every action item?
+    a: Not always. OpenAI says ChatGPT can give incorrect or misleading answers, and it can sound confident even when it is wrong. Use the list as a first draft and check it against your notes.
+  - q: Does this cost anything?
+    a: OpenAI says ChatGPT is free to use, and that free users have unlimited everyday text chats, subject to abuse-prevention safeguards. The default model and limits can change over time. Ads may appear in the free tier in certain countries.
+  - q: What if my notes are very long?
+    a: OpenAI says each chat can fill up. A few long exchanges take more room than many short ones. You can start a new chat right away on the free plan. Paste only the part you want to work on.
+draft: false
+---
+{/* CHECK: timeMinutes: 5 was not timed on a real run. */}
+<TLDR>Remove private details from your notes, paste them into ChatGPT with the prompt below, and ask for each task, who owns it and when it is due. Tell ChatGPT to write "Not stated" instead of guessing. Then check the list against your notes.</TLDR>
+
+<Problem>The meeting is over, and your notes are a mess. They are half-sentences, first names and question marks. You are not sure who agreed to do what, or by when. You need a clear list to send out.</Problem>
+
+<Why>
+Meeting notes are written fast. Tasks get buried between ideas and side comments.
+
+A chat tool can sort text that you paste in. But it works best when you say clearly what you want. OpenAI advises you to be clear and specific, and to give enough context.
+
+It can also get things wrong. OpenAI says ChatGPT can give incorrect or misleading answers, and that you should use it as a first draft, not a final source.
+</Why>
+
+<Fix>Give ChatGPT your notes and one clear prompt. Ask for tasks, owners and dates, and tell it not to guess. Then check the list against your notes.</Fix>
+
+<StepByStep>
+<Step>**Make a safe copy of your notes.** Open your notes in a separate document. Remove names, phone numbers, email addresses, account numbers and company details. Replace them with placeholders such as Person A and Client X. You can put the real names back yourself at the end.</Step>
+<Step>**Open ChatGPT and start a new chat.** A new chat gives this task its own space, so older messages do not fill it up.</Step>
+<Step>**Paste the prompt.** Copy the first prompt below into the message box. Then paste your safe notes where it says to.</Step>
+<Step>**Send it and read the list.** Check each action item against your notes. Look for three things: a task that is missing, an owner that was made up, and a date that was made up. Where ChatGPT wrote "Not stated", decide who and when yourself.</Step>
+<Step>**Ask for changes.** If the first answer is not right, say what to change. OpenAI says good prompting is often a back-and-forth. You review the answer, then refine the prompt. For example, ask for a shorter list or a friendlier tone. The third prompt below asks ChatGPT to check for missed items.</Step>
+<Step>**Copy the final list into your own document.** Put the real names back and add the dates you decided. Send it to your team only after you have read it once more.</Step>
+</StepByStep>
+
+{/* SCREENSHOT SLOT: the practice note pasted under the first prompt in a new ChatGPT chat, and the action list that comes back. Use only the made-up practice note below. Hide name, email and chat history. Record before publishing, and describe what the screen really shows. */}
+
+<Prompt label="Notes to Action Items">Below are my meeting notes. Turn them into a list of action items. For each item, give the task, the person responsible and the due date. Use only what is in the notes. If the person or the date is not stated, write "Not stated". Do not guess. After the list, add a short list of decisions that were made and a short list of open questions. Notes: [paste your notes here]</Prompt>
+
+<Prompt label="Practice Note (Made Up)">tues mtg w/ team. website redo, Sam says needs new photos by end of month?? Priya to ask printer about a quote. budget still not decided, maybe talk again next wk. Lee send out the survey, i think friday. parking?? nobody knows</Prompt>
+
+<Prompt label="Check for Missed Items">Compare your list to my notes. Tell me if any action item in my notes is missing from your list. Tell me if you added anything that is not in my notes.</Prompt>
+
+<Prompt label="Turn the List Into an Email">Turn the action list into a short, friendly email to the team. Keep every task, person and date exactly as listed. Keep "Not stated" where it appears.</Prompt>
+
+<Tip>Not sure where to start? Try the made-up practice note first. It is sample data, not a real person's information. Names in your own notes should become placeholders before you paste them.</Tip>
+
+<Warning>ChatGPT can drop an item or get one wrong. OpenAI says to always verify data and quotes. Read the list against your notes before you send it to anyone.</Warning>
+
+<Safety>
+Meeting notes often hold names, client details and numbers. Remove them before you paste, and keep passwords, account numbers and anything confidential out of the chat.
+
+If your notes are about a client, a case, a patient or a private matter, do not paste them. Write the action list by hand instead.
+
+{/* CHECK: no OpenAI data-controls page is saved for this guide, so no claim is made about how ChatGPT stores or uses chats. Read https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt and add the exact setting steps if QA asks. */}
+</Safety>
+
+## If It Does Not Work
+
+- **The list leaves things out.** Send the third prompt, "Check for Missed Items". Then read your notes line by line yourself.
+- **ChatGPT made up a person or a date.** Reply with "Use only what is in my notes. Write Not stated where the notes do not say." Then ask for the list again.
+- **ChatGPT says the chat is full.** OpenAI says this is about how much ChatGPT can use in one conversation. You can start a new chat right away on the free plan. Paste only the part of your notes you want to work on.
+
+<Checklist>
+<li>I removed names and private details before pasting.</li>
+<li>I asked for tasks, owners and dates, and told ChatGPT not to guess.</li>
+<li>I checked the list against my original notes.</li>
+<li>I read the final list once more before sending it.</li>
+</Checklist>
