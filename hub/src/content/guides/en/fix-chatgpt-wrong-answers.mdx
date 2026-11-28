@@ -18,26 +18,30 @@ infographic:
       detail: Have it search the web and show links you can open.
     - label: Rewrite and ask again
       detail: Change your question and ask again.
-    - label: Check what matters
-      detail: Check health, money and work answers with a trusted source.
+    - label: Check three claims
+      detail: Pick three claims and check each at the original source.
 segment: beginners
 level: beginner
 tools: [ChatGPT]
 cost: $0 on the free plan
 timeMinutes: 5
-verifiedOn: 2026-11-05
+verifiedOn: 2026-11-18
+updatedOn: 2026-11-21
 sources:
   - title: Does ChatGPT tell the truth? (OpenAI Help Center)
     url: https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth
-    accessed: 2026-11-05
+    accessed: 2026-11-18
   - title: Prompt engineering best practices for ChatGPT (OpenAI Help Center)
     url: https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt
-    accessed: 2026-11-05
+    accessed: 2026-11-18
+  - title: ChatGPT release notes (OpenAI Help Center)
+    url: https://help.openai.com/en/articles/6825453-chatgpt-release-notes
+    accessed: 2026-11-18
   - title: ChatGPT Free Tier FAQ (OpenAI Help Center)
     url: https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq
-    accessed: 2026-11-05
+    accessed: 2026-11-18
 riskLevel: LOW
-qaRecord: QA-JAI-20261105-001-20261105
+qaRecord: QA-JAI-20261105-001-20261121
 primaryKeyword: chatgpt giving me wrong answers
 secondaryKeywords: [chatgpt keeps giving me wrong answers, why is chatgpt giving me wrong answers, how to get better answers from chatgpt]
 faq:
@@ -45,11 +49,13 @@ faq:
     a: OpenAI says the model may sound confident even when it is wrong. A confident tone is not proof. Check anything important with a reliable source.
   - q: Can ChatGPT look things up on the free plan?
     a: Yes. OpenAI says free users can search the web for up-to-date information. When it searches, the answer shows sources you can open.
+  - q: How do I check if a ChatGPT answer is right?
+    a: Pick three claims you can check, such as a name, a number or a date. Open the original source for each one and see if it says the same. OpenAI advises you to verify quotes, data, technical information and references. Fix or remove what does not match or what you could not check.
   - q: Do I need to pay to get better answers?
     a: No. Every step in this guide works on the free plan. Clear questions and a quick check of anything important are what this guide is about.
 draft: false
 ---
-<TLDR>Tell ChatGPT more about what you need, ask it to say when it is not sure, and ask it to show sources. Then check anything important yourself before you use it.</TLDR>
+<TLDR>Tell ChatGPT more about what you need, ask it to say when it is not sure, and ask it to show sources. Then pick three claims and check each at the original source before you use the answer.</TLDR>
 
 <Problem>You ask ChatGPT a simple question. The answer sounds sure of itself, but it is wrong, vague, or not what you asked for. You start to wonder if you are doing something wrong.</Problem>
 
@@ -66,12 +72,24 @@ Its knowledge also stops at a certain date. Unless it searches the web, it may n
 <StepByStep>
 <Step>**Say what went wrong, and add context.** In the message box, tell ChatGPT what was wrong with the last answer. Then add who you are, what you need it for, and the format you want. For example: "That was too general. I am a beginner. Explain it in 5 short points."</Step>
 <Step>**Ask it to say when it is not sure.** Add one line to your question: "If you are not sure, say so. Do not make up facts, dates, or links." This makes it easier to spot weak parts of the answer. It can still be wrong without saying so, so keep checking.</Step>
-<Step>**Ask for sources.** For anything recent or factual, ask: "Search the web and show your sources." When ChatGPT searches, links to its sources appear in the answer. Open at least one link and see if it says the same thing.</Step>
-<Step>**Rewrite your question and ask again.** If the answer is still off, change your question. Add a detail, remove what is not needed, or ask a smaller question. You can also edit your last message or ask for a new answer. {/* CHECK: exact edit and retry controls on web and phone (pencil on hover; press and hold, then Edit; retry under the reply) were not read on a live OpenAI page. Keep this sentence general until checked. */}</Step>
-<Step>**Check what matters before you use it.** If the answer affects your health, money, work, or plans, check it with a trusted source. Use ChatGPT as a first draft, not the final word.</Step>
+<Step>**Ask for sources.** For anything recent or factual, ask: "Search the web and show your sources." When ChatGPT searches, links to its sources appear in the answer. Open at least one link and see if it says the same thing. A link is not proof: OpenAI says ChatGPT may not be able to read a page because of technical issues, paywalls or site settings, so check the page yourself.</Step>
+<Step>**Rewrite your question and ask again.** If the answer is still off, change your question. Add a detail, remove what is not needed, or ask a smaller question. You can also edit your last message or ask for a new answer. {/* SOURCED 2026-11-18: OpenAI release notes (help.openai.com/en/articles/6825453) describe editing a sent message and a retry menu under the reply. Exact controls vary by device and plan, so keep this sentence general. Name controls only after a recording shows them. */}</Step>
+<Step>**Check three claims before you use it.** Pick three things in the answer that you can check: a name, a number, a date, a quote, or a link. OpenAI advises you to verify quotes, data, technical information and references. For each one, open the original source, such as a government or agency page, and see if it says the same. Mark each as "matches", "does not match", or "could not check". Fix or remove anything that does not match or that you could not check before you share it. If the answer affects your health, money, work, or plans, check it with a trusted source. Use ChatGPT as a first draft, not the final word.</Step>
 </StepByStep>
 
-{/* SCREENSHOT SLOT: the same question asked twice, first vague, then with context and "say if you are not sure", and the answer showing source links. Record on a free account with a made-up question. Hide name, email and chat history. */}
+<Shot src="/guides/shots/JAI-20261105-001/01-vague-question.png" alt="A ChatGPT chat where a short question about the size of the Hubble telescope's main mirror gets a short answer with no source" caption="A short question gets a short answer, with no source and no sign of doubt. ChatGPT Free, 20 November 2026." width={796} height={215} />
+
+<Shot src="/guides/shots/JAI-20261105-001/02-context-question-with-link.png" alt="The same question asked again with context, a request for an official NASA page and the words 'say if you are not sure'; the answer names a NASA page and says it is sure" caption="The same question asked again in the same chat, with who it is for, an official source and 'say if you are not sure'. The answer now names a NASA page. Its 'I am confident' is not proof: open the page and check (step 5)." width={796} height={398} />
+
+<Shot src="/guides/shots/JAI-20261105-001/03-answer-three-claims-highlighted.png" alt="A ChatGPT answer with three facts about the Hubble telescope highlighted in yellow: launch date, shuttle name and orbit height" caption="One real answer with three claims you can check: the launch date, the shuttle and the orbit height. The yellow highlight is ours. ChatGPT Free, asked on 20 November 2026." width={796} height={447} />
+
+<Shot src="/guides/shots/JAI-20261105-001/04-nasa-what-is-hubble.png" alt="A NASA page for students saying Hubble was launched by space shuttle Discovery on April 24, 1990 and orbits about 547 kilometers (340 miles) above Earth" caption="Claims 1, 2 and 3 at the page ChatGPT gave for orbit height: launch date and shuttle match, and 340 miles (547 km) matches. Highlight ours; page read on 21 November 2026." source="https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-the-hubble-space-telescope/" width={1236} height={502} />
+
+<Shot src="/guides/shots/JAI-20261105-001/05-nasa-sts31-launch-shuttle.png" alt="The NASA STS-31 mission page showing orbiter Discovery and launch date April 24, 1990" caption="Claims 1 and 2 again, at NASA's mission page: orbiter Discovery, launched April 24, 1990. Highlight ours; page read on 21 November 2026." source="https://www.nasa.gov/mission/sts-31/" width={1347} height={147} />
+
+<Shot src="/guides/shots/JAI-20261105-001/06-nasa-sts31-orbit-altitude.png" alt="The NASA STS-31 mission facts list with 'Orbit Altitude: 330 nautical miles' highlighted" caption="Claim 3 is not simple. This NASA page lists an orbit altitude of 330 nautical miles, about 380 statute miles. ChatGPT's own note said NASA pages give 300 to 340 miles, which does not cover 380. The page does not say why the figures differ. Highlight ours; page read on 21 November 2026." source="https://www.nasa.gov/mission/sts-31/" width={662} height={515} />
+
+**Our three-claim check:** launch date (April 24, 1990): matches. Shuttle (Discovery, STS-31): matches. Orbit height (about 340 miles): matches the page ChatGPT gave for it, does not match NASA's STS-31 page. As step 5 says, fix it: do not state it as plain fact, write what one page says and name it, for example "about 340 miles (547 km), according to NASA's page for students".
 
 <Prompt label="Fix a Vague Answer">That answer was too general. I am a beginner and I need this for [your goal]. Please explain it again in 5 short points, in plain words. If you are not sure about something, say so. Do not make up facts, dates, or links.</Prompt>
 
@@ -85,5 +103,5 @@ Its knowledge also stops at a certain date. Unless it searches the web, it may n
 <li>I told ChatGPT what was wrong and what I need.</li>
 <li>I asked it to say when it is not sure.</li>
 <li>I asked for sources and opened at least one link.</li>
-<li>I checked anything important with a trusted source.</li>
+<li>I picked three claims, checked each at the original source, and fixed or removed what did not match or what I could not check.</li>
 </Checklist>
